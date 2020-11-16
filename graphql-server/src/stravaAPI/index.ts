@@ -1,23 +1,54 @@
 import axios from 'axios';
 const firebase = require('../firebase');
 const stravaKeys = require('./strava.key.json');
+import { connectMongoose, closeMongoose } from '../mongoDB';
 import { baseURL } from './constants';
 import { ApolloError } from 'apollo-server';
+import { parseEntries } from './validation';
+import { EntryType } from '../types';
 
-export const getAllRuns = async (): Promise<string> => {
+export const initializeEntries = async (): Promise<void> => {
+    const accessToken = await getAccessToken();
+    await connectMongoose();
+    let limit = 0;
+    let page = 1;
+    do {
+        const entries = await fetchEntries(accessToken, 1, page);
+        const parsedEntries = parseEntries(entries);
+        // Save entries to DB
+        console.log(parsedEntries[0].start_date);
+        page++;
+        limit++;
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+    } while (limit < 1);
+    closeMongoose();
+};
+
+const fetchEntries = async (
+    accessToken: string,
+    perPage: number = 1,
+    page: number = 1
+): Promise<EntryType[]> => {
+    const url = `${baseURL}athlete/activities?per_page=${perPage}&page=${page}`;
     try {
-        const entries = await fetchEntries();
-        console.log(entries);
-        return JSON.stringify(entries);
+        const response = await axios({
+            method: 'get',
+            url,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                Accept: 'application/json',
+                scope: 'read_all',
+                'cache-control': 'no-cache',
+            },
+        });
+        return response.data;
     } catch (error) {
-        console.log(error);
-        throw new ApolloError('Error retrieving runs');
+        throw new ApolloError(error);
     }
 };
 
-const fetchEntries = async () => {
-    // const perPage = 100;
-    const url = `${baseURL}athlete/activities?per_page=1`;
+const fetchDetailedEntry = async (activityID: number) => {
+    const url = `${baseURL}activities/${activityID}`;
     try {
         const accessToken = await getAccessToken();
         const response = await axios({
