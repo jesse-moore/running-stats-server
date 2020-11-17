@@ -1,7 +1,7 @@
 import axios from 'axios';
 const firebase = require('../firebase');
 const stravaKeys = require('./strava.key.json');
-import { connectMongoose, closeMongoose } from '../mongoDB';
+import { connectMongoose, closeMongoose, insertMany } from '../mongoDB';
 import { baseURL } from './constants';
 import { ApolloError } from 'apollo-server';
 import { parseEntries } from './validation';
@@ -10,18 +10,22 @@ import { EntryType } from '../types';
 export const initializeEntries = async (): Promise<void> => {
     const accessToken = await getAccessToken();
     await connectMongoose();
-    let limit = 0;
+    const allInvalidEntries = [];
     let page = 1;
     do {
-        const entries = await fetchEntries(accessToken, 1, page);
-        const parsedEntries = parseEntries(entries);
+        const entries = await fetchEntries(accessToken, 200, page);
+        if (entries.length === 0) break;
+        const { validEntries, invalidEntries } = parseEntries(entries);
+        allInvalidEntries.push(...invalidEntries);
         // Save entries to DB
-        console.log(parsedEntries[0].start_date);
+        await insertMany(validEntries);
+        console.log(`Inserted ${validEntries.length} Entries`);
+        console.log(`Found ${invalidEntries.length} Invalid Entries`);
         page++;
-        limit++;
         await new Promise((resolve) => setTimeout(resolve, 2000));
-    } while (limit < 1);
+    } while (page < 10);
     closeMongoose();
+    console.log(`Invalid Entries:\n`, allInvalidEntries);
 };
 
 const fetchEntries = async (

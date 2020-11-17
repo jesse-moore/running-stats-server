@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const entrySchema = new mongoose.Schema({
+const entrySchema = new Schema({
     name: String,
     distance: Number,
     moving_time: Number,
@@ -8,13 +8,13 @@ const entrySchema = new mongoose.Schema({
     total_elevation_gain: Number,
     type: String,
     workout_type: Number,
-    strava_id: Number,
+    strava_id: { type: Number, unique: true },
     start_date: String,
     start_date_local: String,
     timezone: String,
     utc_offset: Number,
-    start_latlng: [Number, Number],
-    end_latlng: [Number, Number],
+    start_latlng: { type: [Number], default: null },
+    end_latlng: { type: [Number], default: null },
     location_city: String,
     location_state: String,
     location_country: String,
@@ -39,4 +39,4 @@ entrySchema.set('toJSON', {
     },
 });
 
-module.exports = mongoose.model('Entry', entrySchema);
+export default model('Entry', entrySchema);

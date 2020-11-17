@@ -2,11 +2,9 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
     type Query {
-		getAllRuns: String
-		ping: String
+        getAllRuns: String
     }
     type Mutation {
-		initializeEntries: String
-		testRateLimit: String
+        initializeEntries: String
     }
 `;
