@@ -1,11 +1,30 @@
 import axios from 'axios';
 const firebase = require('../firebase');
 const stravaKeys = require('./strava.key.json');
-import { connectMongoose, closeMongoose, insertMany } from '../mongoDB';
+import {
+    connectMongoose,
+    closeMongoose,
+    insertMany,
+    getActivities,
+} from '../mongoDB';
 import { baseURL } from './constants';
 import { ApolloError } from 'apollo-server';
 import { parseEntries } from './validation';
 import { EntryType } from '../types';
+
+import { calcStats } from './helpers';
+import activities from '../data';
+
+export const initializeStats = async () => {
+    try {
+        // await connectMongoose();
+        // const activities = await getActivities();
+        calcStats(activities);
+        // closeMongoose();
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export const initializeEntries = async (): Promise<void> => {
     const accessToken = await getAccessToken();

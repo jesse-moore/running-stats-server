@@ -8,3 +8,11 @@ export const insertMany = async (entries: EntryType[]) => {
         console.log('Error inserting documents', error.message);
     }
 };
+
+export const getActivities = async () => {
+    try {
+        return await Entry.find({strava_id:{$gte: 4190000000}});
+    } catch (error) {
+        throw Error(error.message);
+    }
+};

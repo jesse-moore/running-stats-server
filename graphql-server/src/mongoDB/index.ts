@@ -2,7 +2,7 @@ import { invalid, required } from 'joi';
 
 import mongoose from 'mongoose';
 import config from '../utils/config';
-import { insertMany } from './queries';
+export { insertMany, getActivities } from './queries';
 
 export const connectMongoose = async () => {
     mongoose.set('useFindAndModify', false);
@@ -23,5 +23,3 @@ export const connectMongoose = async () => {
 export const closeMongoose = () => {
     mongoose.connection.close();
 };
-
-export { insertMany };

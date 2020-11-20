@@ -1,15 +1,19 @@
-import { initializeEntries } from '../stravaAPI';
+import { initializeEntries, initializeStats } from '../stravaAPI';
 
 export = {
     Query: {
-        getAllRuns: async () => {
-            return 'Get All Runs';
+        activities: async () => {
+            return [{ name: 'New Activity' }];
+        },
+        stats: async () => {
+            await initializeStats();
+            return { type: 'ALL' };
         },
     },
-    Mutation: {
-        initializeEntries: async () => {
-            await initializeEntries();
-            return 'Done';
-        },
-    },
+    // Mutation: {
+    //     initializeEntries: async () => {
+    //         await initializeEntries();
+    //         return 'Done';
+    //     },
+    // },
 };
