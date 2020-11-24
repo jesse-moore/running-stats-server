@@ -1,9 +1,10 @@
 import Joi from 'joi';
+import dayjs from 'dayjs';
 import { EntryType } from '../types';
 
 const numberSchema = Joi.number().max(1000000).empty().default(0).allow(null);
 const stringSchema = Joi.string().max(20).truncate().empty('');
-const dateSchema = Joi.date().default(null);
+const dateSchema = Joi.string().custom(parseDate);
 const latSchema = Joi.number().min(-90).max(90);
 const lngSchema = Joi.number().min(-180).max(180);
 const latlngSchema = Joi.array().items(latSchema, lngSchema).allow(null);
@@ -83,3 +84,13 @@ const parseEntry = (entry: EntryType): EntryType | InvaildEntryType => {
     }
     return value;
 };
+
+function parseDate(date: string) {
+    const parsedDate = dayjs(date).toISOString();
+    const dateSchema = Joi.date().iso();
+    const { value, error } = dateSchema.validate(parsedDate);
+    if (error) {
+        throw Error(error.message);
+    }
+    return value;
+}

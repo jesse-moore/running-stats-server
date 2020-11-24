@@ -2,7 +2,12 @@ import { invalid, required } from 'joi';
 
 import mongoose from 'mongoose';
 import config from '../utils/config';
-export { insertMany, getActivities } from './queries';
+export {
+    insertManyEntries,
+    insertManyStats,
+    getActivities,
+    getStats,
+} from './queries';
 
 export const connectMongoose = async () => {
     mongoose.set('useFindAndModify', false);

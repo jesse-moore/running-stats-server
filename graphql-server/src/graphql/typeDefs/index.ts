@@ -3,6 +3,7 @@ import { graphqlSync } from 'graphql';
 import { gql } from 'apollo-server';
 
 const root = gql`
+    scalar JSON
     type Query {
         root: String
     }
@@ -16,14 +17,18 @@ const activity = gql`
         name: String!
     }
 
+    extend type Mutation {
+        initializeEntries: String
+    }
+
     extend type Query {
         activities: [Activity]!
     }
 `;
 
 const stat = gql`
-    type Stat {
-        type: StatType!
+    type Stats {
+        stats: JSON
     }
 
     enum StatType {
@@ -33,7 +38,11 @@ const stat = gql`
     }
 
     extend type Query {
-        stats: Stat!
+        stats: JSON
+    }
+
+    extend type Mutation {
+        initializeStats: JSON
     }
 `;
 

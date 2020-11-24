@@ -4,7 +4,8 @@ const stravaKeys = require('./strava.key.json');
 import {
     connectMongoose,
     closeMongoose,
-    insertMany,
+    insertManyEntries,
+    insertManyStats,
     getActivities,
 } from '../mongoDB';
 import { baseURL } from './constants';
@@ -17,10 +18,15 @@ import activities from '../data';
 
 export const initializeStats = async () => {
     try {
-        // await connectMongoose();
-        // const activities = await getActivities();
-        calcStats(activities);
-        // closeMongoose();
+        await connectMongoose();
+        const activities = await getActivities();
+        const stats = calcStats(activities);
+        // const parsedEntries = parseEntries(activities);
+        // console.log(JSON.stringify(parsedEntries));
+        // console.log(activities[0]);
+        await insertManyStats(stats);
+        closeMongoose();
+        return stats;
     } catch (error) {
         console.log(error);
     }
@@ -32,17 +38,17 @@ export const initializeEntries = async (): Promise<void> => {
     const allInvalidEntries = [];
     let page = 1;
     do {
-        const entries = await fetchEntries(accessToken, 200, page);
+        const entries = await fetchEntries(accessToken, 20, page);
         if (entries.length === 0) break;
         const { validEntries, invalidEntries } = parseEntries(entries);
         allInvalidEntries.push(...invalidEntries);
         // Save entries to DB
-        await insertMany(validEntries);
+        await insertManyEntries(validEntries);
         console.log(`Inserted ${validEntries.length} Entries`);
         console.log(`Found ${invalidEntries.length} Invalid Entries`);
         page++;
         await new Promise((resolve) => setTimeout(resolve, 2000));
-    } while (page < 10);
+    } while (page < 2);
     closeMongoose();
     console.log(`Invalid Entries:\n`, allInvalidEntries);
 };

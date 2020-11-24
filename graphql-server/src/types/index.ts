@@ -1,4 +1,5 @@
 export interface EntryType {
+    _id: string;
     name: string;
     distance: number;
     moving_time: number;
@@ -43,6 +44,9 @@ export interface Stat {
     average_speed: number;
     daysOfWeek: { [k: number]: number };
     periodOfDay: { [k in PeriodOfDay]: number };
+    topActivities: {
+        distance: string[];
+    };
 }
 
 enum StatType {

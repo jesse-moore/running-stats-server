@@ -21,7 +21,10 @@ const statObj = {
     average_speed: 0,
 };
 
-const addActivityToStat = (stat: Stat, activity: EntryType): void => {
+const addActivityToStat = (
+    stat: { [k: string]: any },
+    activity: EntryType
+): void => {
     stat.count++;
     stat.total_distance += activity.distance;
     stat.average_distance = stat.total_distance / stat.count;
@@ -32,7 +35,6 @@ const addActivityToStat = (stat: Stat, activity: EntryType): void => {
     stat.average_speed = stat.total_distance / stat.total_moving_time;
 
     const date = dayjs(activity.start_date);
-    const dayOfWeek = date.day();
     const hour = date.hour();
     if (hour < 3) stat.periodOfDay.night++;
     else if (hour < 7) stat.periodOfDay.earlyMorning++;
@@ -40,10 +42,58 @@ const addActivityToStat = (stat: Stat, activity: EntryType): void => {
     else if (hour < 17) stat.periodOfDay.afternoon++;
     else if (hour < 21) stat.periodOfDay.evening++;
     else if (hour >= 21) stat.periodOfDay.night++;
+
+    const dayOfWeek = date.day();
     stat.daysOfWeek[dayOfWeek]++;
+
+    const topActivityMetrics: { key: keyof EntryType; measure: string }[] = [
+        { key: 'distance', measure: 'highest' },
+        { key: 'moving_time', measure: 'highest' },
+        { key: 'total_elevation_gain', measure: 'highest' },
+        { key: 'average_speed', measure: 'highest' },
+        { key: 'elev_high', measure: 'highest' },
+        { key: 'elev_low', measure: 'lowest' },
+    ];
+    topActivityMetrics.forEach((metric) => {
+        if (metric.key in activity) {
+            calcTopActivities(stat, activity, metric);
+        }
+    });
 };
 
-export const calcStats = (activities: EntryType[]) => {
+const calcTopActivities = (
+    stat: { [k: string]: any },
+    activity: EntryType,
+    metric: { key: keyof EntryType; measure: string }
+): void => {
+    const { key, measure } = metric;
+    const metricValue = activity[key];
+    if (metricValue && metricValue !== null) {
+        const topActivities = [];
+        if (stat.topActivities[key]) {
+            topActivities.push(...stat.topActivities[key]);
+        }
+
+        if (topActivities.length < 5) {
+            topActivities.push({
+                _id: activity._id,
+                [key]: metricValue,
+            });
+        } else if (topActivities[4][key] < metricValue) {
+            topActivities.splice(4, 1, {
+                _id: activity._id,
+                [key]: metricValue,
+            });
+        }
+
+        topActivities.sort((a, b) => {
+            return b[key] - a[key];
+        });
+        stat.topActivities[key] = topActivities;
+    }
+};
+
+export const calcStats = (activities: EntryType[]): Stat[] => {
     const stats: { [k: string]: any } = {
         all: {
             type: 'all',
@@ -51,6 +101,7 @@ export const calcStats = (activities: EntryType[]) => {
             month: null,
             daysOfWeek: Object.assign({}, daysOfWeek),
             periodOfDay: Object.assign({}, periodOfDay),
+            topActivities: Object.assign({}),
             ...statObj,
         },
     };
@@ -65,6 +116,7 @@ export const calcStats = (activities: EntryType[]) => {
                 year,
                 daysOfWeek: Object.assign({}, daysOfWeek),
                 periodOfDay: Object.assign({}, periodOfDay),
+                topActivities: Object.assign({}),
                 ...statObj,
             };
         if (!stats[`${month}${year}`])
@@ -74,6 +126,7 @@ export const calcStats = (activities: EntryType[]) => {
                 month,
                 daysOfWeek: Object.assign({}, daysOfWeek),
                 periodOfDay: Object.assign({}, periodOfDay),
+                topActivities: Object.assign({}),
                 ...statObj,
             };
 
@@ -81,6 +134,32 @@ export const calcStats = (activities: EntryType[]) => {
         addActivityToStat(stats[year], activity);
         addActivityToStat(stats[`${month}${year}`], activity);
     });
-    console.log(stats);
+
+    // console.log(stats.all.topActivities);
     // console.log(activities.length);
+    const formattedStats = formatStats(stats);
+    return formattedStats;
 };
+
+function formatStats(stats: { [k: string]: any }) {
+    const statsArray = [];
+    for (const key in stats) {
+        if (Object.prototype.hasOwnProperty.call(stats, key)) {
+            const stat = stats[key];
+            for (const key in stat.topActivities) {
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        stat.topActivities,
+                        key
+                    )
+                ) {
+                    stat.topActivities[key] = stat.topActivities[key].map(
+                        (activity: { [k: string]: any }) => activity._id
+                    );
+                }
+            }
+            statsArray.push(stat);
+        }
+    }
+    return statsArray;
+}
