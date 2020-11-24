@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import dayjs from 'dayjs';
-import { EntryType } from '../types';
 
 const numberSchema = Joi.number().max(1000000).empty().default(0).allow(null);
 const stringSchema = Joi.string().max(20).truncate().empty('');
@@ -9,7 +8,7 @@ const latSchema = Joi.number().min(-90).max(90);
 const lngSchema = Joi.number().min(-180).max(180);
 const latlngSchema = Joi.array().items(latSchema, lngSchema).allow(null);
 
-const schema = Joi.object({
+export const schema = Joi.object({
     name: stringSchema.default('Unknown Name'),
     distance: numberSchema,
     moving_time: numberSchema,
@@ -46,45 +45,6 @@ const schema = Joi.object({
     .rename('id', 'strava_id')
     .options({ stripUnknown: true });
 
-interface InvaildEntryType {
-    error: {
-        message: string;
-        strava_id: number;
-    };
-}
-
-export const parseEntries = (
-    entries: EntryType[]
-): { validEntries: EntryType[]; invalidEntries: InvaildEntryType[] } => {
-    if (!Array.isArray(entries)) {
-        throw new Error('Entries is not an Array');
-    }
-    const validEntries: EntryType[] = [];
-    const invalidEntries: InvaildEntryType[] = [];
-    entries.forEach((entry) => {
-        const validatedEntry = parseEntry(entry);
-        if ('error' in validatedEntry) {
-            invalidEntries.push(validatedEntry);
-        } else {
-            validEntries.push(validatedEntry);
-        }
-    });
-    return { validEntries, invalidEntries };
-};
-
-const parseEntry = (entry: EntryType): EntryType | InvaildEntryType => {
-    const { value, error } = schema.validate(entry);
-    if (error) {
-        return {
-            error: {
-                message: error.message,
-                strava_id: value.strava_id,
-            },
-        };
-    }
-    return value;
-};
-
 function parseDate(date: string) {
     const parsedDate = dayjs(date).toISOString();
     const dateSchema = Joi.date().iso();
@@ -94,3 +54,4 @@ function parseDate(date: string) {
     }
     return value;
 }
+ 

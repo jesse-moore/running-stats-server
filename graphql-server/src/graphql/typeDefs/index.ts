@@ -18,7 +18,7 @@ const activity = gql`
     }
 
     extend type Mutation {
-        initializeEntries: String
+        initializeActivities: String
     }
 
     extend type Query {

@@ -1,0 +1,1 @@
+export { parseActivities } from './validation';

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const entrySchema = new Schema({
+const activitySchema = new Schema({
     name: String,
     distance: Number,
     moving_time: Number,
@@ -31,7 +31,7 @@ const entrySchema = new Schema({
     elev_low: Number,
 });
 
-entrySchema.set('toJSON', {
+activitySchema.set('toJSON', {
     transform: (_document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
         delete returnedObject._id;
@@ -39,4 +39,4 @@ entrySchema.set('toJSON', {
     },
 });
 
-export default model('Entry', entrySchema);
+export default model('Activity', activitySchema);

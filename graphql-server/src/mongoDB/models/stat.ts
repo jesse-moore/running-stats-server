@@ -22,7 +22,7 @@ const statSchema = new Schema({
     },
     topActivities: {
         type: Map,
-        of: [{ type: Schema.Types.ObjectId, ref: 'Entry' }],
+        of: [{ type: Schema.Types.ObjectId, ref: 'Activity' }],
     },
 });
 

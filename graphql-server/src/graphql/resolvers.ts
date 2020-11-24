@@ -1,5 +1,4 @@
-import { initializeEntries, initializeStats } from '../stravaAPI';
-import { getStats } from '../mongoDB';
+import { initializeActivities, initializeStats } from '../helpers';
 import GraphQLJSON from 'graphql-type-json';
 
 export = {
@@ -9,17 +8,16 @@ export = {
             return [{ name: 'New Activity' }];
         },
         stats: async () => {
-            const stats = await getStats();
-            return stats;
+            return { stat: 'STAT' };
         },
     },
     Mutation: {
         initializeStats: async () => {
-            const stats = await initializeStats();
-            return stats;
+            // const stats = await initializeStats();
+            return { stats: 'STATS' };
         },
-        initializeEntries: async () => {
-            await initializeEntries();
+        initializeActivities: async () => {
+            await initializeActivities();
             return 'Done';
         },
     },

@@ -1,4 +1,4 @@
-export interface EntryType {
+export interface ActivityObject {
     _id: string;
     name: string;
     distance: number;
@@ -30,7 +30,7 @@ export interface EntryType {
     elev_low: number;
 }
 
-export interface Stat {
+export interface StatObject {
     type: StatType;
     year: number;
     month: number;
@@ -48,6 +48,17 @@ export interface Stat {
         distance: string[];
     };
 }
+
+export interface InvaildActivityObject {
+    error: {
+        message: string;
+        strava_id: number;
+    };
+}
+
+export type RawActivityObject = {
+    [k: string]: any;
+};
 
 enum StatType {
     ALL = 'all',

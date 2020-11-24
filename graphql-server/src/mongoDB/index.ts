@@ -1,9 +1,8 @@
-import { invalid, required } from 'joi';
-
 import mongoose from 'mongoose';
 import config from '../utils/config';
+
 export {
-    insertManyEntries,
+    insertManyActivities,
     insertManyStats,
     getActivities,
     getStats,

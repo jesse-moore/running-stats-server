@@ -1,19 +1,19 @@
-import Entry from './models/entry';
+import Activity from './models/activity';
 import Stat from './models/stat';
-import { EntryType, Stat as StatType } from '../types';
+import { ActivityObject, StatObject } from '../types';
 import { connectMongoose, closeMongoose } from './';
 
-export const insertManyEntries = async (entries: EntryType[]) => {
+export const insertManyActivities = async (activities: ActivityObject[]) => {
     try {
-        await Entry.insertMany(entries, { ordered: false });
+        await Activity.insertMany(activities, { ordered: false });
     } catch (error) {
         console.log('Error inserting documents', error.message);
     }
 };
 
-export const insertManyStats = async (entries: StatType[]) => {
+export const insertManyStats = async (activities: StatObject[]) => {
     try {
-        await Stat.insertMany(entries, { ordered: false });
+        await Stat.insertMany(activities, { ordered: false });
     } catch (error) {
         console.log('Error inserting documents', error.message);
     }
@@ -21,8 +21,8 @@ export const insertManyStats = async (entries: StatType[]) => {
 
 export const getActivities = async () => {
     try {
-        const activities = await Entry.find();
-        return (activities as unknown) as EntryType[];
+        const activities = await Activity.find();
+        return (activities as unknown) as ActivityObject[];
     } catch (error) {
         throw Error(error.message);
     }
