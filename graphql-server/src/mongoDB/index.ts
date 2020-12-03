@@ -8,7 +8,7 @@ export {
     getStats,
 } from './queries';
 
-export const connectMongoose = async () => {
+export const connectMongoose = async (): Promise<void> => {
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true);
     try {
@@ -24,6 +24,6 @@ export const connectMongoose = async () => {
     }
 };
 
-export const closeMongoose = () => {
+export const closeMongoose = (): void => {
     mongoose.connection.close();
 };
