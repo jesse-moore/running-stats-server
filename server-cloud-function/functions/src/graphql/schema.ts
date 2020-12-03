@@ -1,9 +1,19 @@
 const { gql } = require('apollo-server-express');
 
-const schema = gql`
+const root = gql`
+    scalar JSON
     type Query {
-        hello: String
+        root: String
+    }
+    type Mutation {
+        root: String
     }
 `;
 
-export default schema;
+const activity = gql`
+    extend type Query {
+        activities: String!
+    }
+`;
+
+export default [root, activity];
