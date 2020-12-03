@@ -1,0 +1,64 @@
+{
+  "distance": [ {$sort: {'distance': -1 } }, {$limit: 5} ],
+  "moving_time": [ {$sort: {'moving_time': -1 } }, {$limit: 5} ]
+}
+
+        return await Entry.aggregate([
+            // { $match: { start_date: { $gte: new Date('11/01/2020') } } },
+            {
+                $facet: {
+                    all: [
+                        {
+                            $group: {
+                                _id: null,
+                                count: { $sum: 1 },
+                                distance: {
+                                    $sum: '$distance',
+                                },
+                                duration: {
+                                    $sum: '$moving_time',
+                                },
+                                elevation_gain: {
+                                    $sum: '$total_elevation_gain',
+                                },
+                                average_distance: {
+                                    $avg: '$distance',
+                                },
+                                average_duration: {
+                                    $avg: '$moving_time',
+                                },
+                                average_elevation_gain: {
+                                    $avg: '$total_elevation_gain',
+                                },
+                                average_speed: {
+                                    $avg: '$average_speed',
+                                },
+                                days: {
+                                    $addToSet: {
+                                        $dayOfWeek: '$start_date_local',
+                                    },
+                                },
+                            },
+                        },
+                        { $project: { _id: 0 } },
+                    ],
+                    allDaysOfWeek: [
+                        {
+                            $group: {
+                                _id: {
+                                    day: { $dayOfWeek: '$start_date_local' },
+                                },
+                                count: { $sum: 1 },
+                            },
+                        },
+                        {
+                            $addFields: {
+                                day: '$_id.day',
+                            },
+                        },
+                        { $project: { _id: 0 } },
+                    ],
+                },
+            },
+            // { $project: { start_date: 1, start_date_local: 1, timezone: 1 } },
+        ]);

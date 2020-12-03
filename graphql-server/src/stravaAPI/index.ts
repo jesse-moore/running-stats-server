@@ -2,7 +2,6 @@ import axios from 'axios';
 const firebase = require('../firebase');
 const stravaKeys = require('./strava.key.json');
 import { baseURL } from './constants';
-import { ApolloError } from 'apollo-server';
 
 import { RawActivityObject } from '../types';
 
@@ -41,7 +40,8 @@ const fetchActivities = async (
         });
         return response.data;
     } catch (error) {
-        throw new ApolloError(error);
+        const message = error.response.data.message;
+        throw new Error(message);
     }
 };
 
@@ -81,7 +81,7 @@ const getNewToken = async (refreshToken: string): Promise<string> => {
         await firebase.saveNewToken(newTokenData);
         return data.access_token;
     } catch (error) {
-        throw new ApolloError(error);
+        throw new Error(error);
     }
 };
 
@@ -101,6 +101,6 @@ const fetchDetailedEntry = async (activityID: number) => {
         });
         return response.data;
     } catch (error) {
-        throw new ApolloError(error);
+        throw new Error(error);
     }
 };

@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
+import { ActivityObject } from '../../types';
 
 const activitySchema = new Schema({
     name: String,
@@ -39,4 +40,6 @@ activitySchema.set('toJSON', {
     },
 });
 
-export default model('Activity', activitySchema);
+interface ActivityModel extends ActivityObject, Document { }
+
+export default model<ActivityModel>('Activity', activitySchema);

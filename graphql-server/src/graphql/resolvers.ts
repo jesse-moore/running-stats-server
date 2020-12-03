@@ -17,8 +17,8 @@ export = {
             return { stats: 'STATS' };
         },
         initializeActivities: async () => {
-            await initializeActivities();
-            return 'Done';
+            const response = await initializeActivities();
+            return response;
         },
     },
 };

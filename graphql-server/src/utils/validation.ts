@@ -12,7 +12,7 @@ export const parseActivities = (
     invalidEntries: InvaildActivityObject[];
 } => {
     if (!Array.isArray(activities)) {
-        throw new Error('Entries is not an Array');
+        throw new Error('Error parsing activities: Activities is not an Array');
     }
     const validEntries: ActivityObject[] = [];
     const invalidEntries: InvaildActivityObject[] = [];

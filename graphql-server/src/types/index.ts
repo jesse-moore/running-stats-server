@@ -1,5 +1,7 @@
+import { WriteError } from 'mongodb';
+
 export interface ActivityObject {
-    _id: string;
+    _id: any;
     name: string;
     distance: number;
     moving_time: number;
@@ -73,3 +75,8 @@ export enum PeriodOfDay {
     EVENING = 'evening',
     NIGHT = 'night',
 }
+
+export type WriteResponse = {
+    insertedCount: Number;
+    writeErrors: WriteError[];
+};

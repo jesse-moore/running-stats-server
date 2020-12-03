@@ -1,6 +1,5 @@
-import { graphqlSync } from 'graphql';
-
 import { gql } from 'apollo-server';
+import { WriteError } from 'mongodb';
 
 const root = gql`
     scalar JSON
@@ -17,8 +16,20 @@ const activity = gql`
         name: String!
     }
 
+    type DataBaseResponse {
+        insertedCount: Int!
+        writeErrors: [WriteError]!
+    }
+
+    type WriteError {
+        index: Int
+        code: Int
+        errmsg: String
+        op: [Activity]
+    }
+
     extend type Mutation {
-        initializeActivities: String
+        initializeActivities: DataBaseResponse
     }
 
     extend type Query {

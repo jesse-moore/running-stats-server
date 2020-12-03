@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-server';
 import {
     connectMongoose,
     closeMongoose,
@@ -5,19 +6,21 @@ import {
 } from '../mongoDB';
 import { fetchActivitiesFromStrava } from '../stravaAPI';
 import { parseActivities } from '../utils/validation';
+import { WriteResponse } from '../types';
 
-export const initializeActivities = async (): Promise<void> => {
+export const initializeActivities = async (): Promise<WriteResponse> => {
     try {
         const activities = await fetchActivitiesFromStrava();
 
         const { validEntries, invalidEntries } = parseActivities(activities);
 
         await connectMongoose();
-        await insertManyActivities(validEntries);
+        const databaseResponse = await insertManyActivities(validEntries);
         closeMongoose();
-        console.log(`Inserted ${validEntries.length} Entries`);
-        console.log(`Found ${invalidEntries.length} Invalid Entries`);
-    } catch (error) {}
+        return databaseResponse;
+    } catch (error) {
+        throw new ApolloError(error.message);
+    }
 };
 
 export const initializeStats = async () => {
