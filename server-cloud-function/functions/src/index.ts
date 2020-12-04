@@ -5,7 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from './graphql/schema';
 import resolvers from './graphql/resolvers';
 
-import config from './utils/config';
+import playgroundConfig from './utils/playgroundConfig';
 
 admin.initializeApp();
 function gqlServer() {
@@ -14,17 +14,8 @@ function gqlServer() {
         typeDefs: schema,
         resolvers,
         introspection: true,
-        playground: {
-            tabs: [
-                {
-                    endpoint: config.playground.url,
-                    query: 'query { hello }',
-                    name: 'Query',
-                },
-            ],
-            //@ts-expect-error:
-            settings: { 'schema.polling.enable': false },
-        },
+        //@ts-expect-error:
+        playground: playgroundConfig,
     });
 
     apolloServer.applyMiddleware({ app, path: '/api', cors: true });
