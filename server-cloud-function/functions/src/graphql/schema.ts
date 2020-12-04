@@ -12,7 +12,8 @@ const root = gql`
 
 const activity = gql`
     extend type Query {
-        activities: String!
+        activities(year: Int, month: Int, id: String): [JSON]!
+        activity(id: String!): JSON
     }
 `;
 

@@ -1,16 +1,10 @@
 import * as functions from 'firebase-functions';
+import config from './.env';
 
-const config = (function () {
+export default (function () {
     if (Object.getOwnPropertyNames(functions.config()).length === 0) {
-        return {
-            playground: {
-                url:
-                    'http://localhost:5001/strava-stats-aac46/us-central1/strava/api',
-            },
-        };
+        return config;
     } else {
         return functions.config();
     }
 })();
-
-export default config;
