@@ -1,5 +1,5 @@
-import { Schema, model, Document } from 'mongoose';
-import { ActivityObject } from '../../types';
+import { Schema, model } from 'mongoose';
+import { ActivityModel } from '../../types';
 
 const activitySchema = new Schema({
     name: String,
@@ -30,6 +30,8 @@ const activitySchema = new Schema({
     max_speed: Number,
     elev_high: Number,
     elev_low: Number,
+    year: Number,
+    month: Number,
 });
 
 activitySchema.set('toJSON', {
@@ -42,7 +44,5 @@ activitySchema.set('toJSON', {
         delete returnedObject.__v;
     },
 });
-
-interface ActivityModel extends ActivityObject, Document {}
 
 export default model<ActivityModel>('Activity', activitySchema);

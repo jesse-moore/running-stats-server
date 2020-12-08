@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 import { WriteError } from 'mongodb';
 
 export interface ActivityObject {
@@ -30,6 +31,8 @@ export interface ActivityObject {
     elev_high: number;
     elev_low: number;
 }
+
+export interface ActivityModel extends ActivityObject, Document {}
 
 export interface StatObject {
     type: StatType;
@@ -83,4 +86,6 @@ export type WriteResponse = {
 export type FindArgs = {
     year?: number;
     month?: number;
+    page?: number;
+    perPage?: number;
 };

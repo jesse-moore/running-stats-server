@@ -12,7 +12,13 @@ const root = gql`
 
 const activity = gql`
     extend type Query {
-        activities(year: Int, month: Int, id: String): [JSON]!
+        activities(
+            year: Int
+            month: Int
+            id: String
+            page: Int
+            perPage: Int
+        ): [JSON]!
         activity(id: String!): JSON
     }
 `;
