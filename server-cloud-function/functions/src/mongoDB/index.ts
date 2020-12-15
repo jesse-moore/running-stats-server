@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 import config from '../utils/config';
 
-export { findActivityByID, findActivities } from './queries';
+export {
+    findActivityByID,
+    findActivities,
+    findStat,
+    findStats,
+} from './queries';
 
 export const connectMongoose = async (): Promise<void> => {
     mongoose.set('useFindAndModify', false);

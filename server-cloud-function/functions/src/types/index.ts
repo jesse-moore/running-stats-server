@@ -36,6 +36,7 @@ export interface ActivityModel extends ActivityObject, Document {}
 
 export interface StatObject {
     type: StatType;
+    stat_id: number;
     year: number;
     month: number;
     total_distance: number;
@@ -50,8 +51,15 @@ export interface StatObject {
     periodOfDay: { [k in PeriodOfDay]: number };
     topActivities: {
         distance: string[];
+        moving_time: string[];
+        total_elevation_gain: string[];
+        average_speed: string[];
+        elev_high: string[];
+        elev_low: string[];
     };
 }
+
+export interface StatModel extends StatObject, Document {}
 
 export interface InvaildActivityObject {
     error: {

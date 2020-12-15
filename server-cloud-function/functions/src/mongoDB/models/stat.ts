@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose';
+import { StatModel } from '../../types';
 
 const statSchema = new Schema({
     type: String,
+    stat_id: { type: Number, unique: true },
     year: Number,
     month: Number,
     daysOfWeek: {
@@ -24,6 +26,14 @@ const statSchema = new Schema({
         type: Map,
         of: [{ type: Schema.Types.ObjectId, ref: 'Activity' }],
     },
+    total_distance: Number,
+    average_distance: Number,
+    total_elev_gain: Number,
+    average_elev_gain: Number,
+    total_moving_time: Number,
+    average_moving_time: Number,
+    count: Number,
+    average_speed: Number,
 });
 
 statSchema.set('toJSON', {
@@ -37,4 +47,4 @@ statSchema.set('toJSON', {
     },
 });
 
-export default model('Stat', statSchema);
+export default model<StatModel>('Stat', statSchema);

@@ -5,9 +5,6 @@ const root = gql`
     type Query {
         root: String
     }
-    type Mutation {
-        root: String
-    }
 `;
 
 const activity = gql`
@@ -23,4 +20,17 @@ const activity = gql`
     }
 `;
 
-export default [root, activity];
+const stat = gql`
+    extend type Query {
+        stat(year: Int, month: Int): JSON!
+        stats(stats: [StatInput]): [JSON]!
+        allStats: [JSON]!
+    }
+
+    input StatInput {
+        year: Int
+        month: Int
+    }
+`;
+
+export default [root, activity, stat];
