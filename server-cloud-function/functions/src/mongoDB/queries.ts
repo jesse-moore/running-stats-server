@@ -55,3 +55,63 @@ export const findStats = async (
         throw Error(error.message);
     }
 };
+
+export const findAvailableStats = async (): Promise<
+    { result: { [k: string]: string[] } }[]
+> => {
+    try {
+        return await Stat.aggregate([
+            {
+                $group: {
+                    _id: '$year',
+                    months: {
+                        $push: {
+                            $ifNull: ['$month', 0],
+                        },
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    result: {
+                        $push: {
+                            k: {
+                                $ifNull: [
+                                    {
+                                        $toString: '$_id',
+                                    },
+                                    '0',
+                                ],
+                            },
+                            v: '$months',
+                        },
+                    },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    result: {
+                        $arrayToObject: {
+                            $filter: {
+                                input: '$result',
+                                as: 'item',
+                                cond: {
+                                    $gt: [
+                                        {
+                                            $toDouble: '$$item.k',
+                                        },
+                                        0,
+                                    ],
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        ]);
+    } catch (error) {
+        throw Error(error.message);
+    }
+};

@@ -22,14 +22,30 @@ const activity = gql`
 
 const stat = gql`
     extend type Query {
-        stat(year: Int, month: Int): JSON!
+        stat(year: Int, month: Int): Stat!
         stats(stats: [StatInput]): [JSON]!
-        allStats: [JSON]!
+        availableStats: JSON
     }
 
     input StatInput {
         year: Int
         month: Int
+    }
+    type Stat {
+        type: String
+        stat_id: Int
+        year: Int
+        month: Int
+        total_distance: Float
+        average_distance: Float
+        total_elev_gain: Float
+        average_elev_gain: Float
+        total_moving_time: Float
+        average_moving_time: Float
+        count: Int
+        average_speed: Float
+        daysOfWeek: JSON
+        periodOfDay: JSON
     }
 `;
 

@@ -6,6 +6,7 @@ export {
     findActivities,
     findStat,
     findStats,
+    findAvailableStats,
 } from './queries';
 
 export const connectMongoose = async (): Promise<void> => {

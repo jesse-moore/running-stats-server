@@ -6,6 +6,7 @@ import {
     findActivities,
     findStat,
     findStats,
+    findAvailableStats,
 } from '../mongoDB';
 import makeStatID from '../utils/makeStatID';
 import { ActivityModel, FindArgs, StatModel } from '../types';
@@ -29,7 +30,7 @@ export const getActivities = async ({
         await closeMongoose();
         return result;
     } catch (error) {
-        throw new ApolloError(error.message);
+        throw new ApolloError(error);
     }
 };
 
@@ -44,7 +45,7 @@ export const getActivityByID = async ({
         await closeMongoose();
         return activity;
     } catch (error) {
-        throw new ApolloError(error.message);
+        throw new ApolloError(error);
     }
 };
 
@@ -65,7 +66,7 @@ export const getStat = async ({
         await closeMongoose();
         return stat;
     } catch (error) {
-        throw new ApolloError(error.message);
+        throw new ApolloError(error);
     }
 };
 
@@ -87,6 +88,17 @@ export const getStats = async (
         await closeMongoose();
         return stat;
     } catch (error) {
-        throw new ApolloError(error.message);
+        throw new ApolloError(error);
+    }
+};
+
+export const getAvailableStats = async () => {
+    try {
+        await connectMongoose();
+        const result = await findAvailableStats();
+        await closeMongoose();
+        return result[0].result;
+    } catch (error) {
+        throw new ApolloError(error);
     }
 };

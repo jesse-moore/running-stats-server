@@ -1,5 +1,11 @@
 import GraphQLJSON from 'graphql-type-json';
-import { getActivities, getActivityByID, getStat, getStats } from '../helpers';
+import {
+    getActivities,
+    getActivityByID,
+    getStat,
+    getStats,
+    getAvailableStats,
+} from '../helpers';
 
 export default {
     JSON: GraphQLJSON,
@@ -18,6 +24,9 @@ export default {
             args: { stats: { year: number; month: number }[] }
         ) => {
             return await getStats(args.stats);
+        },
+        availableStats: async () => {
+            return await getAvailableStats();
         },
     },
 };
