@@ -5,8 +5,6 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from './graphql/schema';
 import resolvers from './graphql/resolvers';
 
-import playgroundConfig from './utils/playgroundConfig';
-
 admin.initializeApp();
 function gqlServer() {
     const app = express();
@@ -14,8 +12,6 @@ function gqlServer() {
         typeDefs: schema,
         resolvers,
         introspection: true,
-        //@ts-expect-error:
-        playground: playgroundConfig,
     });
 
     apolloServer.applyMiddleware({ app, path: '/api', cors: true });
