@@ -14,7 +14,7 @@ export const findActivityByID = async (
 };
 export const findActivities = async ({
     page = 0,
-    perPage = 30,
+    perPage = 0,
     year,
     month,
 }: {
@@ -24,13 +24,12 @@ export const findActivities = async ({
     month: number | undefined;
 }): Promise<ActivityModel[]> => {
     try {
-        const perPageLimited = perPage > 50 ? 50 : perPage;
         const skip = page * perPage;
 
-        const args: { [key: string]: number } = {};
+        const args: { [key: string]: number | string } = { type: 'Run' };
         if (year) args.year = year;
         if (month) args.month = month;
-        return await Activity.find(args).skip(skip).limit(perPageLimited);
+        return await Activity.find(args).skip(skip).limit(perPage);
     } catch (error) {
         throw Error(error.message);
     }

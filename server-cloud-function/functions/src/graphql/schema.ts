@@ -15,8 +15,46 @@ const activity = gql`
             id: String
             page: Int
             perPage: Int
-        ): [JSON]!
-        activity(id: String!): JSON
+        ): [Activity]!
+        activity(id: String!): Activity
+    }
+
+    type Activity {
+        name: String
+        distance: Float
+        moving_time: Int
+        elapsed_time: Int
+        total_elevation_gain: Float
+        type: String
+        workout_type: Int
+        strava_id: Float
+        start_date: String
+        start_date_local: String
+        timezone: String
+        utc_offset: Int
+        start_latlng: Latlng
+        end_latlng: Latlng
+        location_city: String
+        location_state: String
+        location_country: String
+        map: Map
+        average_speed: Float
+        max_speed: Float
+        elev_high: Float
+        elev_low: Float
+        year: Int
+        month: Int
+    }
+
+    type Latlng {
+        lat: Float
+        lng: Float
+    }
+
+    type Map {
+        id: String
+        summary_polyline: String
+        resource_state: Int
     }
 `;
 

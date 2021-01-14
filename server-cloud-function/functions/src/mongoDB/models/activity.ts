@@ -14,8 +14,14 @@ const activitySchema = new Schema({
     start_date_local: Date,
     timezone: String,
     utc_offset: Number,
-    start_latlng: { type: [Number], default: null },
-    end_latlng: { type: [Number], default: null },
+    start_latlng: {
+        lat: { type: Number, default: null },
+        lng: { type: Number, default: null },
+    },
+    end_latlng: {
+        lat: { type: Number, default: null },
+        lng: { type: Number, default: null },
+    },
     location_city: String,
     location_state: String,
     location_country: String,
