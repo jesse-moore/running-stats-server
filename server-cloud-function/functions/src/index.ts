@@ -1,28 +1,16 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import schema from './graphql/schema';
-import resolvers from './graphql/resolvers';
-
 admin.initializeApp();
-function gqlServer() {
-    const app = express();
-    const apolloServer = new ApolloServer({
-        typeDefs: schema,
-        resolvers,
-        introspection: true,
-    });
+import server from './functions/server';
+import strava_webhook from './functions/strava-webhook';
+import updateByID from './functions/updateActivityById';
+import keys from './keys.json';
 
-    apolloServer.applyMiddleware({ app, path: '/api', cors: true });
+// Obfuscates endpoints
+exports[keys.WEBHOOK_NAME] = functions.https.onRequest(strava_webhook);
+// exports[keys.UPDATE_BY_ID] = functions.firestore
+//     .document('admin/stravaQueue')
+//     .onUpdate(updateByID);
+exports[keys.UPDATE_BY_ID] = functions.https.onRequest(updateByID);
 
-    app.get('/', (_req, res) => {
-        res.send('Hello from Firebase!');
-    });
-
-    return app;
-}
-
-const server = gqlServer();
-
-export const strava = functions.https.onRequest(server);
+exports.strava = functions.https.onRequest(server);

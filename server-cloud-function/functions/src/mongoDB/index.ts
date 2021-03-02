@@ -7,6 +7,7 @@ export {
     findStat,
     findStats,
     findAvailableStats,
+    getIndexMap,
 } from './queries';
 
 export const connectMongoose = async (): Promise<void> => {
