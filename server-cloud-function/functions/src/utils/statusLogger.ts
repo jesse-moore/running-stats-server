@@ -14,7 +14,8 @@ const statusObject: StatusObject = {
     validationErrors: [],
     databaseErrors: [],
     init(): void {
-        statusInstance = Object.assign({}, statusObject);
+        this.validationErrors = [];
+        this.databaseErrors = [];
     },
     addValidationError(id, error) {
         if (error === undefined) return;
@@ -26,7 +27,6 @@ const statusObject: StatusObject = {
         this.databaseErrors.push(error);
     },
     logStatus(): void {
-
         this.validationErrors.forEach((error) => {
             if (error.error?.message) {
                 console.error(error.error.message);
@@ -41,6 +41,4 @@ const statusObject: StatusObject = {
     },
 };
 
-let statusInstance = Object.assign({}, statusObject);
-
-export default statusInstance;
+export default statusObject;
