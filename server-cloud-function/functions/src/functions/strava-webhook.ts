@@ -28,14 +28,22 @@ function server() {
     });
 
     app.post('/', async (req, res) => {
-        const { object_type, object_id, aspect_type } = req.body;
+        const {
+            object_type,
+            object_id,
+            aspect_type,
+        }: {
+            object_type: string;
+            object_id: string;
+            aspect_type: string;
+        } = req.body;
         console.log(req.hostname);
         if (
             object_type === 'activity' &&
             aspect_type === 'create' &&
             validateStravaID(object_id)
         ) {
-            await addIDToQueue(object_id);
+            await addIDToQueue(Number.parseInt(object_id));
             res.sendStatus(200);
         } else {
             res.sendStatus(200);
