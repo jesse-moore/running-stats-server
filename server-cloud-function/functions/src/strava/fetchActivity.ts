@@ -18,7 +18,6 @@ export default async (
                 'cache-control': 'no-cache',
             },
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         if (
