@@ -2,7 +2,6 @@ import { getStravaAccessToken } from '../strava';
 import getNewActivity from './getNewActivity';
 import getActivityWeather from './getActivityWeather';
 import { ActivityModel } from '../types';
-import statusLogger from '../utils/statusLogger';
 
 export default async (newIdsQueue: number[]): Promise<ActivityModel[]> => {
     const accessToken = await getStravaAccessToken();
