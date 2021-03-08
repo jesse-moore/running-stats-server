@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose';
 import { WeatherModel } from '../../types';
 
 const weatherSchema = new Schema({
-    _id: false,
     windDirection: Number,
     cloudCover: Number,
     minTemp: Number,

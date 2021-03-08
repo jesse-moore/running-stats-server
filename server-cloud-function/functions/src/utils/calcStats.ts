@@ -1,113 +1,73 @@
 import dayjs from 'dayjs';
 import Stat from '../mongoDB/models/stat';
 import makeStatID from './makeStatID';
-import {
-    ActivityModel,
-    StatObject,
-    StatType,
-    PeriodOfDay,
-    TopActivities,
-    TopActivitiesWithMetrics,
-    Metric,
-    StatModel,
-} from '../types';
+import { ActivityModel, StatModel, TopActivityMetrics } from '../types';
+import { Types } from 'mongoose';
+import StatusMessage from './statusLogger';
 
-const daysOfWeek = { mo: 0, tu: 0, we: 0, th: 0, fr: 0, sa: 0, su: 0 };
-const periodOfDay = {
-    earlyMorning: 0,
-    morning: 0,
-    afternoon: 0,
-    evening: 0,
-    night: 0,
-};
+function calcStats(
+    activities: ActivityModel[],
+    stats: StatModel[] | null,
+    topActivitiesMetrics: Map<string, { [k: string]: any }> = new Map()
+): StatModel[] {
+    const statMap = new Map<number, StatModel>();
+    if (Array.isArray(stats)) {
+        stats.forEach((stat) => {
+            statMap.set(stat.stat_id, stat);
+        });
+    }
 
-const statObj = {
-    total_distance: 0,
-    average_distance: 0,
-    total_elev_gain: 0,
-    average_elev_gain: 0,
-    total_moving_time: 0,
-    average_moving_time: 0,
-    count: 0,
-    average_speed: 0,
-};
-
-const topActivitiesObject: TopActivitiesWithMetrics = {
-    distance: [],
-    moving_time: [],
-    total_elevation_gain: [],
-    average_speed: [],
-    elev_high: [],
-    elev_low: [],
-};
-
-const statsObj = {
-    0: {
-        type: StatType.ALL,
-        stat_id: 0,
-        year: null,
-        month: null,
-        daysOfWeek: Object.assign({}, daysOfWeek),
-        periodOfDay: Object.assign({}, periodOfDay),
-        topActivities: Object.assign({}, topActivitiesObject),
-        ...statObj,
-    },
-};
-
-const topActivityMetrics = [
-    { key: Metric.DISTANCE, measure: 'highest' },
-    { key: Metric.MOVING_TIME, measure: 'highest' },
-    { key: Metric.TOTAL_ELEVATION_GAIN, measure: 'highest' },
-    { key: Metric.AVERAGE_SPEED, measure: 'highest' },
-    { key: Metric.ELEV_HIGH, measure: 'highest' },
-    { key: Metric.ELEV_LOW, measure: 'lowest' },
-];
-
-type StatsObject = { [k: number]: StatObject };
-
-function calcStats(activities: ActivityModel[], stats: StatsObject = statsObj) {
     activities.forEach((activity) => {
         if (activity.type !== 'Run' && activity.type !== 'VirtualRun') return;
         const date = new Date(activity.start_date_local);
         const year = date.getUTCFullYear();
         const month = date.getUTCMonth() + 1;
+        const statIdYear = makeStatID(year, null);
+        const statIdYearMonth = makeStatID(year, month);
+        topActivitiesMetrics.set(
+            activity._id.toHexString(),
+            activity.toObject()
+        );
 
-        if (!stats.hasOwnProperty(makeStatID(year, null))) {
-            const newStatObject: StatObject = {
-                type: StatType.YEAR,
-                stat_id: makeStatID(year, null),
+        if (!statMap.has(0)) {
+            const newStat = new Stat({
+                year: null,
                 month: null,
-                year,
-                daysOfWeek: Object.assign({}, daysOfWeek),
-                periodOfDay: Object.assign({}, periodOfDay),
-                topActivities: Object.assign({}, topActivitiesObject),
-                ...statObj,
-            };
-            stats[makeStatID(year, null)] = newStatObject;
+            });
+            statMap.set(0, newStat);
         }
 
-        if (!stats.hasOwnProperty(makeStatID(year, month))) {
-            const newStatObject: StatObject = {
-                type: StatType.MONTH,
-                stat_id: makeStatID(year, month),
-                month,
-                year,
-                daysOfWeek: Object.assign({}, daysOfWeek),
-                periodOfDay: Object.assign({}, periodOfDay),
-                topActivities: Object.assign({}, topActivitiesObject),
-                ...statObj,
-            };
-            stats[makeStatID(year, month)] = newStatObject;
+        if (!statMap.has(statIdYear)) {
+            const newStat = new Stat({ year, month: null });
+            statMap.set(statIdYear, newStat);
         }
-        addActivityToStat(stats[0], activity);
-        addActivityToStat(stats[makeStatID(year, null)], activity);
-        addActivityToStat(stats[makeStatID(year, month)], activity);
+
+        if (!statMap.has(statIdYearMonth)) {
+            const newStat = new Stat({ year, month });
+            statMap.set(statIdYearMonth, newStat);
+        }
+
+        statMap.forEach((stat) => {
+            addActivityToStat(stat, activity, topActivitiesMetrics);
+            const statValidationError = stat.validateSync();
+            if (statValidationError?.name) {
+                StatusMessage.addValidationError(
+                    stat.stat_id,
+                    statValidationError
+                );
+                console.log(statValidationError);
+                throw Error('Stat Validation Error');
+            }
+        });
     });
-    const formattedStats = formatStats(stats);
-    return formattedStats;
+    return Array.from(statMap.values());
 }
 
-function addActivityToStat(stat: StatObject, activity: ActivityModel) {
+function addActivityToStat(
+    stat: StatModel,
+    activity: ActivityModel,
+    topActivitiesMetrics: Map<string, { [k: string]: any }>
+) {
     stat.count++;
     stat.total_distance += activity.distance;
     stat.average_distance = stat.total_distance / stat.count;
@@ -129,82 +89,49 @@ function addActivityToStat(stat: StatObject, activity: ActivityModel) {
     const dayOfWeek = dayjs(date).format('dd').toLowerCase();
     stat.daysOfWeek[dayOfWeek]++;
 
-    topActivityMetrics.forEach((metric) => {
-        if (metric.key in activity) {
-            calcTopActivities(stat, activity, metric);
-        }
+    TopActivityMetrics.forEach((metric) => {
+        const id: string = activity._id.toHexString();
+        calcTopActivities(stat, id, metric, topActivitiesMetrics);
     });
 }
 
 function calcTopActivities(
-    stat: StatObject,
-    activity: ActivityModel,
-    metric: { key: Metric; measure: string }
+    stat: StatModel,
+    id: string,
+    metric: { key: string; measure: string },
+    topActivitiesMetrics: Map<string, { [k: string]: any }>
 ) {
     const { key, measure } = metric;
-    const metricValue: number = activity.get(key);
-    if (!metricValue || metricValue === null) return;
+    const topActivities = stat.topActivities
+        .get(key)
+        ?.map((_id) => _id.toHexString());
+    if (topActivities) {
+        const newArr = [...topActivities, id];
 
-    if (stat.topActivities.hasOwnProperty(key)) {
-        const newArr = [
-            ...stat.topActivities[key],
-            {
-                _id: activity._id,
-                value: metricValue,
-            },
-        ];
-        if (measure === 'highest') {
-            newArr.sort((a, b) => {
-                if (typeof a === 'string' || typeof b === 'string') return 0;
-                return b.value - a.value;
-            });
-        } else if (measure === 'lowest') {
-            newArr.sort((a, b) => {
-                if (typeof a === 'string' || typeof b === 'string') return 0;
-                return a.value - b.value;
-            });
-        }
-
+        newArr.sort((a, b) => {
+            // TODO Needs to be partial Activity Model
+            const aActivity: any = topActivitiesMetrics.get(a);
+            const bActivity: any = topActivitiesMetrics.get(b);
+            if (aActivity === undefined || bActivity === undefined) {
+                // TODO Throw Error Here
+                return 0;
+            }
+            const aValue = aActivity[key];
+            const bValue = bActivity[key];
+            if (typeof aValue !== 'number' || typeof bValue !== 'number') {
+                // TODO Throw Error Here
+                return 0;
+            }
+            if (measure === 'highest') return bValue - aValue;
+            return aValue - bValue;
+        });
         if (newArr.length > 5) {
             newArr.pop();
         }
-        Object.defineProperty(stat.topActivities, key, {
-            value: newArr,
-            enumerable: true,
-        });
+        stat.set(`topActivities.${key}`, newArr);
     } else {
-        const newArr = [
-            {
-                _id: activity._id,
-                value: metricValue,
-            },
-        ];
-        Object.defineProperty(stat.topActivities, key, {
-            value: newArr,
-            enumerable: true,
-        });
+        stat.set(`topActivities.${key}`, [id]);
     }
-}
-
-function formatStats(stats: StatsObject): StatObject[] {
-    const statsArray = [];
-    for (const statKey in stats) {
-        const stat = stats[statKey];
-        const topActivitiesWithMetrics = <TopActivitiesWithMetrics>(
-            stat.topActivities
-        );
-        const topActivities = <TopActivities>{};
-        topActivityMetrics.forEach(({ key }) => {
-            topActivities[key] = topActivitiesWithMetrics[key].map(
-                (a) => a._id
-            );
-        });
-
-        stat.topActivities = topActivities;
-        statsArray.push(stat);
-    }
-
-    return statsArray;
 }
 
 export default calcStats;

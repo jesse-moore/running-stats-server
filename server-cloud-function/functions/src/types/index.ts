@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
 import { WriteError } from 'mongodb';
 
 export interface ActivityObject {
@@ -30,7 +30,7 @@ export interface ActivityObject {
     elev_low: number;
     month: number;
     year: number;
-    weather: WeatherData;
+    weather: WeatherData | null;
 }
 
 export interface WeatherData {
@@ -76,7 +76,7 @@ export interface StatObject {
     average_speed: number;
     daysOfWeek: { [k: string]: number };
     periodOfDay: { [k in PeriodOfDay]: number };
-    topActivities: TopActivities | TopActivitiesWithMetrics;
+    topActivities: TopActivities;
 }
 
 export enum Metric {
@@ -87,27 +87,28 @@ export enum Metric {
     ELEV_HIGH = 'elev_high',
     ELEV_LOW = 'elev_low',
 }
-export interface TopActivitiesWithMetrics {
-    distance: { _id: string; value: number }[];
-    moving_time: { _id: string; value: number }[];
-    total_elevation_gain: { _id: string; value: number }[];
-    average_speed: { _id: string; value: number }[];
-    elev_high: { _id: string; value: number }[];
-    elev_low: { _id: string; value: number }[];
-}
 
-export interface TopActivities {
-    distance: string[];
-    moving_time: string[];
-    total_elevation_gain: string[];
-    average_speed: string[];
-    elev_high: string[];
-    elev_low: string[];
-}
+export const TopActivityMetrics = Object.freeze([
+    { key: 'distance', measure: 'highest' },
+    { key: 'moving_time', measure: 'highest' },
+    { key: 'total_elevation_gain', measure: 'highest' },
+    { key: 'average_speed', measure: 'highest' },
+    { key: 'elev_high', measure: 'highest' },
+    { key: 'elev_low', measure: 'lowest' },
+]);
+// export type TopActivitiesPopulated = {
+//     [k in Metric]: { _id: string; value: number }[];
+// };
+
+// export type TopActivitiesPopulated = Types.Map<
+//     Types.Array<{ [Value in Metric]?: number }> & Types.Array<{ _id: string }>
+// >;
+
+export type TopActivities = Types.Map<Types.ObjectId[]>;
 
 export interface IndexMapObject {
     of: string;
-    index: Map<string, string>;
+    index: Map<string, ObjectId>;
 }
 
 export interface IndexMapModel extends IndexMapObject, Document {}

@@ -7,4 +7,5 @@ export const handleAxiosError = (error: { [k: string]: any }): void => {
     } else {
         console.error('Server Error', error.message);
     }
+	console.error(error.config);
 };

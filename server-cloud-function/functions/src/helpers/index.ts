@@ -1,7 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
 import {
-    connectMongoose,
-    closeMongoose,
     findActivityByID,
     findActivities,
     findStat,
@@ -10,6 +8,8 @@ import {
 } from '../mongoDB';
 import makeStatID from '../utils/makeStatID';
 import { ActivityModel, FindArgs, StatModel } from '../types';
+export { default as getNewActivities } from './getNewActivities';
+export { default as updateStats } from './updateStats';
 
 export const getActivities = async ({
     year,
@@ -19,7 +19,6 @@ export const getActivities = async ({
 }: FindArgs): Promise<ActivityModel[]> => {
     const result = [];
     try {
-        await connectMongoose();
         const activities = await findActivities({
             page,
             perPage,
@@ -27,7 +26,6 @@ export const getActivities = async ({
             year,
         });
         result.push(...activities);
-        await closeMongoose();
         return result;
     } catch (error) {
         throw new ApolloError(error);
@@ -40,9 +38,7 @@ export const getActivityByID = async ({
     id: string;
 }): Promise<ActivityModel | null> => {
     try {
-        await connectMongoose();
         const activity = await findActivityByID(id);
-        await closeMongoose();
         return activity;
     } catch (error) {
         throw new ApolloError(error);
@@ -61,9 +57,7 @@ export const getStat = async ({
             throw new ApolloError('year required with month');
         }
         const stat_id = makeStatID(year, month);
-        await connectMongoose();
         const stat = await findStat(stat_id);
-        await closeMongoose();
         return stat;
     } catch (error) {
         throw new ApolloError(error);
@@ -83,9 +77,7 @@ export const getStats = async (
         const findFilter = [...new Set(stat_ids)].map((stat_id) => {
             return { stat_id };
         });
-        await connectMongoose();
         const stat = await findStats(findFilter);
-        await closeMongoose();
         return stat;
     } catch (error) {
         throw new ApolloError(error);
@@ -94,9 +86,8 @@ export const getStats = async (
 
 export const getAvailableStats = async () => {
     try {
-        await connectMongoose();
         const result = await findAvailableStats();
-        await closeMongoose();
+
         return result[0].result;
     } catch (error) {
         throw new ApolloError(error);

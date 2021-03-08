@@ -1,4 +1,5 @@
 import GraphQLJSON from 'graphql-type-json';
+import { connectMongoose, closeMongoose } from '../mongoDB';
 import {
     getActivities,
     getActivityByID,
@@ -11,22 +12,37 @@ export default {
     JSON: GraphQLJSON,
     Query: {
         activities: async (_root: any, args: any) => {
-            return await getActivities(args);
+            await connectMongoose();
+            const response = await getActivities(args);
+            await closeMongoose();
+			return response;
         },
         activity: async (_root: any, args: any) => {
-            return await getActivityByID(args);
+            await connectMongoose();
+            const response = await getActivityByID(args);
+            await closeMongoose();
+			return response;
         },
         stat: async (_root: any, args: { year: number; month: number }) => {
-            return await getStat(args);
+            await connectMongoose();
+            const response = await getStat(args);
+            await closeMongoose();
+			return response;
         },
         stats: async (
             _root: any,
             args: { stats: { year: number; month: number }[] }
         ) => {
-            return await getStats(args.stats);
+            await connectMongoose();
+            const response = await getStats(args.stats);
+            await closeMongoose();
+			return response;
         },
         availableStats: async () => {
-            return await getAvailableStats();
+            await connectMongoose();
+            const response = await getAvailableStats();
+            await closeMongoose();
+            return response;
         },
     },
 };

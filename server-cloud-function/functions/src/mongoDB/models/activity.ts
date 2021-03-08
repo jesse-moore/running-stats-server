@@ -4,21 +4,18 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 import { ActivityModel, RawActivityObject } from '../../types';
 
-const latlngSchema = new Schema({
-    _id: false,
+const latlngSchema = {
     lat: { type: Number, min: -90, max: 90 },
     lng: { type: Number, min: -180, max: 180 },
-});
+};
 
-const mapSchema = new Schema({
-    _id: false,
+const mapSchema = {
     id: { type: String, maxlength: 60 },
     summary_polyline: { type: String, maxlength: 100000, default: null },
     polyline: { type: String, maxlength: 100000, default: null },
-});
+};
 
-const weatherSchema = new Schema({
-    _id: false,
+const weatherSchema = {
     windDirection: Number,
     cloudCover: Number,
     minTemp: Number,
@@ -37,7 +34,7 @@ const weatherSchema = new Schema({
     windGust: Number,
     conditions: [String],
     windChill: Number,
-});
+};
 
 const activitySchema = new Schema({
     name: { type: String, default: 'Unknown Name' },
@@ -47,7 +44,13 @@ const activitySchema = new Schema({
     total_elevation_gain: { type: Number, max: 1000000, default: 0 },
     type: { type: String, default: null },
     workout_type: { type: Number, max: 1000000, default: null },
-    strava_id: { type: Number, max: 999999999999, required: true, index: true },
+    strava_id: {
+        type: Number,
+        max: 999999999999,
+        required: true,
+        index: true,
+        unique: true,
+    },
     utc_offset: {
         type: Number,
         min: -86400,

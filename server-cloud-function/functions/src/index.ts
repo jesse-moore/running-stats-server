@@ -11,6 +11,8 @@ exports[keys.WEBHOOK_NAME] = functions.https.onRequest(strava_webhook);
 // exports[keys.UPDATE_BY_ID] = functions.firestore
 //     .document('admin/stravaQueue')
 //     .onUpdate(updateByID);
-exports[keys.UPDATE_BY_ID] = functions.https.onRequest(updateByID);
+exports[keys.UPDATE_BY_ID] = functions
+    .runWith({ timeoutSeconds: 5 })
+    .https.onRequest(updateByID);
 
 exports.strava = functions.https.onRequest(server);
