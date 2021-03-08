@@ -1,12 +1,7 @@
 import Activity from './models/activity';
 import Stat from './models/stat';
 import IndexMap from './models/indexMap';
-import {
-    ActivityModel,
-    StatModel,
-    IndexMapModel,
-    TopActivities,
-} from '../types';
+import { ActivityModel, StatModel, IndexMapModel } from '../types';
 
 export const findActivityByID = async (
     id: string
@@ -19,14 +14,13 @@ export const findActivityByID = async (
     }
 };
 
-export const getIndexMap = async (): Promise<IndexMapModel> => {
+export const getIndexSet = async (): Promise<Set<number>> => {
     try {
-        const indexMap = await IndexMap.findOne({ of: 'strava_id' });
-        if (indexMap === null) throw new Error('Index Map not found');
-        if (!indexMap.index || !(indexMap.index instanceof Map))
-            throw new Error('Invalid Index Map');
-
-        return indexMap;
+        const indexArray = await Activity.distinct('strava_id');
+        if (!Array.isArray(indexArray)) {
+            throw new Error('Failed to get index');
+        }
+        return new Set(indexArray);
     } catch (error) {
         throw new Error(error.message);
     }

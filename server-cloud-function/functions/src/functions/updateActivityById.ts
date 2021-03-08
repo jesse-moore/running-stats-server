@@ -1,6 +1,6 @@
 // import { Change, EventContext, firestore } from 'firebase-functions';
 import { getIDQueue, removeIDFromQueue, clearIDQueue } from '../firebase/index';
-import { connectMongoose, closeMongoose, getIndexMap } from '../mongoDB';
+import { connectMongoose, closeMongoose, getIndexSet } from '../mongoDB';
 import statusLogger from '../utils/statusLogger';
 import { IdQueue } from '../types';
 
@@ -26,11 +26,11 @@ async function server(): Promise<any> {
         if (!idQueue || !idQueue.ids || idQueue.ids.length < 1) return;
 
         await connectMongoose();
-        const indexMap = await getIndexMap();
+        const indexSet = await getIndexSet();
 
         const newIdsQueue: number[] = [];
         for await (const id of idQueue.ids) {
-            if (indexMap.index.has(id.toString())) {
+            if (indexSet.has(id)) {
                 await removeIDFromQueue(id);
                 console.warn(`Duplicate activity found in IDQueue - id: ${id}`);
             } else {

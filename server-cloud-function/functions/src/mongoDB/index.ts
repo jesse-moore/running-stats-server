@@ -3,20 +3,18 @@ import config from '../utils/config';
 
 export {
     findActivityByID,
-	findActivitiesById,
+    findActivitiesById,
     findActivities,
     findStat,
     findStats,
     findAvailableStats,
-    getIndexMap,
+    getIndexSet,
 } from './queries';
-
-export { default as fetchStats } from './fetchStats';
 
 export const connectMongoose = async (): Promise<void> => {
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true);
-    mongoose.set('debug', true)
+    mongoose.set('debug', true);
     try {
         if (typeof config.mongodb.uri !== 'string')
             throw Error('Invaild Mongo URI');
