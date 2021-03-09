@@ -7,6 +7,7 @@ import formatWeatherData from './formatWeatherData';
 
 export default async (activity: ActivityModel): Promise<WeatherData | null> => {
     const parsedActivity = parseActivity(activity);
+    if (!parsedActivity) return null;
     const weatherData = await fetchWeather(parsedActivity);
     if (weatherData === null) {
         console.warn(
@@ -40,7 +41,8 @@ function parseActivity(
     startTime: string;
     endDate: string;
     endTime: string;
-} {
+} | null {
+    if (!activity.start_latlng) return null;
     const startDate = dayjs(activity.start_date_local)
         .utc()
         .format('YYYY-MM-DDT00:00:00');
