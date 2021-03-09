@@ -24,28 +24,30 @@ const saveNewToken = async (newTokenData: StravaToken): Promise<void> => {
     await adminRef.set(newTokenData);
 };
 
-const addIDToQueue = async (id: number): Promise<void> => {
+const addIDToQueue = async (id: number | number[]): Promise<void> => {
     const docRef = db.collection('admin').doc('stravaQueue');
+    const addIds = Array.isArray(id) ? id : [id];
     try {
         await docRef.update({
-            ids: admin.firestore.FieldValue.arrayUnion(id),
+            ids: admin.firestore.FieldValue.arrayUnion(...addIds),
         });
     } catch (error) {
         throw new Error(
-            `Failed to add id: ${id} from idQueue\n${error.message}`
+            `Failed to add id(s): ${id} to idQueue\n${error.message}`
         );
     }
 };
 
-const removeIDFromQueue = async (id: number): Promise<void> => {
+const removeIDFromQueue = async (id: number | number[]): Promise<void> => {
     const docRef = db.collection('admin').doc('stravaQueue');
+    const removeIds = Array.isArray(id) ? id : [id];
     try {
         await docRef.update({
-            ids: admin.firestore.FieldValue.arrayRemove(id),
+            ids: admin.firestore.FieldValue.arrayRemove(...removeIds),
         });
     } catch (error) {
         throw new Error(
-            `Failed to remove id: ${id} from idQueue\n${error.message}`
+            `Failed to remove id(s): ${id} from idQueue\n${error.message}`
         );
     }
 };

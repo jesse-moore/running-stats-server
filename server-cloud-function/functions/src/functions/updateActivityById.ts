@@ -1,35 +1,24 @@
-// import { Change, EventContext, firestore } from 'firebase-functions';
-import { getIDQueue, removeIDFromQueue, clearIDQueue } from '../firebase/index';
+import { Change } from 'firebase-functions';
+import { removeIDFromQueue } from '../firebase/index';
 import { connectMongoose, closeMongoose, getIndexSet } from '../mongoDB';
 import statusLogger from '../utils/statusLogger';
-import { IdQueue } from '../types';
+import getNewIds from '../utils/getNewIds';
 
-import { Request, Response } from 'firebase-functions';
 import { getNewActivities, updateStats } from '../helpers';
 import { MongoError } from 'mongodb';
+import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
-async function server2(req: Request, res: Response) {
-    const data = await server();
-    if (data) {
-        res.json(data);
-    } else {
-        res.sendStatus(200);
-    }
-}
-
-async function server(): Promise<any> {
+async function server(change: Change<QueryDocumentSnapshot>): Promise<void> {
     try {
         statusLogger.init();
-        // TODO get only recently added ids from idQueue
-        const idQueueDoc = await getIDQueue();
-        const idQueue: IdQueue | undefined = idQueueDoc.data();
-        if (!idQueue || !idQueue.ids || idQueue.ids.length < 1) return;
+        const idQueue = getNewIds(change);
 
+        if (!idQueue || idQueue.length === 0) return;
         await connectMongoose();
         const indexSet = await getIndexSet();
 
         const newIdsQueue: number[] = [];
-        for await (const id of idQueue.ids) {
+        for await (const id of idQueue) {
             if (indexSet.has(id)) {
                 await removeIDFromQueue(id);
                 console.warn(`Duplicate activity found in IDQueue - id: ${id}`);
@@ -38,6 +27,7 @@ async function server(): Promise<any> {
             }
         }
         if (newIdsQueue.length === 0) return;
+        // throw new Error('BREAK');
 
         const activities = await getNewActivities(newIdsQueue);
         const stats = await updateStats(activities);
@@ -64,7 +54,8 @@ async function server(): Promise<any> {
                 });
         }
 
-        await clearIDQueue();
+        const savedIds = activities.map((a) => a.strava_id);
+        await removeIDFromQueue(savedIds);
         return;
     } catch (error) {
         if (error.message) {
@@ -77,4 +68,4 @@ async function server(): Promise<any> {
     }
 }
 
-export default server2;
+export default server;

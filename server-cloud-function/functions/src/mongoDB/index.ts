@@ -14,7 +14,7 @@ export {
 export const connectMongoose = async (): Promise<void> => {
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true);
-    mongoose.set('debug', true);
+    // mongoose.set('debug', true);
     try {
         if (typeof config.mongodb.uri !== 'string')
             throw Error('Invaild Mongo URI');
