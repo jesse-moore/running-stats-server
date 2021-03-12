@@ -1,7 +1,6 @@
 import Activity from './models/activity';
 import Stat from './models/stat';
-import IndexMap from './models/indexMap';
-import { ActivityModel, StatModel, IndexMapModel } from '../types';
+import { ActivityModel, StatModel } from '../types';
 
 export const findActivityByID = async (
     id: string

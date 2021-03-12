@@ -96,22 +96,9 @@ export const TopActivityMetrics = Object.freeze([
     { key: 'elev_high', measure: 'highest' },
     { key: 'elev_low', measure: 'lowest' },
 ]);
-// export type TopActivitiesPopulated = {
-//     [k in Metric]: { _id: string; value: number }[];
-// };
-
-// export type TopActivitiesPopulated = Types.Map<
-//     Types.Array<{ [Value in Metric]?: number }> & Types.Array<{ _id: string }>
-// >;
 
 export type TopActivities = Types.Map<Types.ObjectId[]>;
 
-export interface IndexMapObject {
-    of: string;
-    index: Map<string, ObjectId>;
-}
-
-export interface IndexMapModel extends IndexMapObject, Document {}
 export interface StatModel extends StatObject, Document {}
 
 export interface InvaildActivityObject {

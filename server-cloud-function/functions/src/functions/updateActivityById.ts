@@ -27,7 +27,6 @@ async function server(change: Change<QueryDocumentSnapshot>): Promise<void> {
             }
         }
         if (newIdsQueue.length === 0) return;
-        // throw new Error('BREAK');
 
         const activities = await getNewActivities(newIdsQueue);
         const stats = await updateStats(activities);
