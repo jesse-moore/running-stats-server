@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import Stat from '../mongoDB/models/stat';
 import makeStatID from './makeStatID';
 import { ActivityModel, StatModel, TopActivityMetrics } from '../types';
-import { Types } from 'mongoose';
 import StatusMessage from './statusLogger';
 
 function calcStats(
@@ -47,7 +46,12 @@ function calcStats(
             statMap.set(statIdYearMonth, newStat);
         }
 
-        statMap.forEach((stat) => {
+        const allStat = statMap.get(0);
+        const yearStat = statMap.get(statIdYear);
+        const monthStat = statMap.get(statIdYearMonth);
+
+        [allStat, yearStat, monthStat].forEach((stat) => {
+            if (!stat) return;
             addActivityToStat(stat, activity, topActivitiesMetrics);
             const statValidationError = stat.validateSync();
             if (statValidationError?.name) {
@@ -55,7 +59,6 @@ function calcStats(
                     stat.stat_id,
                     statValidationError
                 );
-                console.log(statValidationError);
                 throw Error('Stat Validation Error');
             }
         });
