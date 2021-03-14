@@ -4,6 +4,7 @@ admin.initializeApp();
 import server from './functions/server';
 import strava_webhook from './functions/strava-webhook';
 import updateByID from './functions/updateActivityById';
+import test from './functions/test';
 import keys from './keys.json';
 
 // Obfuscates endpoints
@@ -13,4 +14,5 @@ exports[keys.UPDATE_BY_ID] = functions
     .firestore.document('admin/stravaQueue')
     .onUpdate(updateByID);
 
+exports.test = functions.https.onRequest(test);
 exports.strava = functions.https.onRequest(server);
