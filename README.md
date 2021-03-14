@@ -1,40 +1,52 @@
-# strava-stats
+<br />
+<p align="center">
+  <h1 align="center">Running Stats Server</h3>
+  <p align="center">
+    A GraphQL api that serves personal running data and a webhook that updates running data when a new run gets created
+    <br />
+    <br />
+    <a href="https://github.com/jesse-moore/running-stats-server/issues/new">Report Bug</a>
+</p>
 
-Site displaying stats of all my Strava activies
+## Technologies
+[![Typescript][typescript-badge]][typescript-url]
+[![Mongodb][mongodb-badge]][mongodb-url]
+[![GraphQL][graphql-badge]][graphql-url]
+[![Firebase][firebase-badge]][firebase-url]
 
-## Dependencies
+## Project Specifications
+### GraphQL API
+* Serves running stats by year, month or all.
+* Serves running data by year, month or all.
+* Serve run data by run id.
+* Query available stats, returns array of available stats by year and month.
+### Webhook
+* Saves run id to a new run queue when a new run gets uploaded to Strava.
+* **Note**: This webhook needs to respond with a status 200 OK within 2 seconds or Strava may think this webhook is nonresponsive and will stop sending requests, so any processing or recalulating run data needs to happen in a separate function. Therefore this will save the new run id to a queue which will then trigger the update activity by id to start.
+### Update Activity by ID Function
+* Triggered when a new run id is added to the queue.
+* Fetches and parses run data from Strava API.
+* Fetches and parses weather data from Virtual Crossing API.
+* Recalculates run stats.
+* Saves run data and stats to database.
 
-### TypeScript
+## Roadmap
+- [ ] Add fastest splits by 1km, 5km, 10km, 21.1km, and 42.2km to stats.
+- [ ] Add top segments to stats.
+- [ ] Add weather related stats.
 
--   [Docs](https://www.typescriptlang.org/docs)
 
-### Apollo - GraphQL Server
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[typescript-url]: https://www.typescriptlang.org
+[typescript-badge]: https://img.shields.io/badge/TypeScript-222222?style=flat-square&logo=typescript&logoColor=3178C6
+[mongodb-url]: https://www.mongodb.com/
+[mongodb-badge]: https://img.shields.io/badge/MongoDB-222222?style=flat-square&logo=mongodb&logoColor=47A248
+[graphql-url]: https://graphql.org/
+[graphql-badge]: https://img.shields.io/badge/GraphQL-222222?style=flat-square&logo=graphql&logoColor=E10098
+[firebase-url]: https://firebase.google.com/
+[firebase-badge]: https://img.shields.io/badge/Firebase-222222?style=flat-square&logo=firebase&logoColor=FFCA28
 
--   [Docs](https://www.apollographql.com/docs/)
 
-### joi - Data Validation
 
--   [Docs](https://joi.dev/api/)
--   [Sandbox](https://joi.dev/tester/)
 
-### Mongoose - MongoDB object modeling
-
--   [Docs](https://mongoosejs.com/docs/guide.html)
-
-### Strava API - Fitness Activity Tracking App
-
--   [Docs](http://developers.strava.com/docs/reference/)
--   [Dashboard](https://www.strava.com/settings/api)
-
-### Firebase Cloud Firestore - NoSQL Cloud Database
-
--   [Docs](https://firebase.google.com/docs/firestore)
-
-### Firebase Cloud Functions - Serverless Functions
-
--   [Docs](https://firebase.google.com/docs/functions)
-
-### MongoDB Atlas - Managed MongoDB
-
--   [Docs](https://docs.atlas.mongodb.com/)
--   [Dashboard](https://cloud.mongodb.com/)
