@@ -14,5 +14,5 @@ exports[keys.UPDATE_BY_ID] = functions
     .firestore.document('admin/stravaQueue')
     .onUpdate(updateByID);
 
-exports.test = functions.https.onRequest(test);
+// exports.test = functions.runWith({ timeoutSeconds: 10 }).https.onRequest(test);
 exports.strava = functions.https.onRequest(server);
