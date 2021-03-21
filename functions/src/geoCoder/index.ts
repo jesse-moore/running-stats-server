@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GEOCODER_KEY } from '../keys.json';
 
 export const fetchLocationData = async (
     coords:
@@ -20,8 +21,7 @@ export const fetchLocationData = async (
             zoom: 16,
         },
         headers: {
-            'x-rapidapi-key':
-                'Jrx8RcdFDTmshXFE0JgGATpFkpH2p1qm3nMjsnA7LMrjObJsOv',
+            'x-rapidapi-key': GEOCODER_KEY,
             'x-rapidapi-host': 'forward-reverse-geocoding.p.rapidapi.com',
         },
     };
