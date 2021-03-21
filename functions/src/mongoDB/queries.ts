@@ -42,7 +42,10 @@ export const findActivities = async ({
         const args: { [key: string]: number | string } = { type: 'Run' };
         if (year) args.year = year;
         if (month) args.month = month;
-        return await Activity.find(args).skip(skip).limit(perPage);
+        return await Activity.find(args)
+            .sort({ start_date_local: -1 })
+            .skip(skip)
+            .limit(perPage);
     } catch (error) {
         throw new Error(error.message);
     }
