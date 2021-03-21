@@ -66,6 +66,7 @@ const activitySchema = new Schema({
     location_city: { type: String, default: null },
     location_state: { type: String, default: null },
     location_country: { type: String, default: null },
+    location_country_code: { type: String, default: null },
     map: { type: mapSchema, default: null },
     average_speed: { type: Number, max: 1000000, default: null },
     max_speed: { type: Number, max: 1000000, default: null },
