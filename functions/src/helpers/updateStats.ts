@@ -48,7 +48,7 @@ const getUniqueTopActivityIds = (stats: StatModel[]): string[] => {
 const getTopActivitiesMetrics = async (
     stats: StatModel[] | null
 ): Promise<Map<string, { [k: string]: any }>> => {
-    if (stats === null) return new Map();
+    if (!stats || stats.length === 0) return new Map();
     const ids = getUniqueTopActivityIds(stats);
     const projection: { [k: string]: number } = {};
     TopActivityMetrics.forEach((metric) => (projection[metric.key] = 1));
