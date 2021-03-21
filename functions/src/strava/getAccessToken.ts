@@ -9,7 +9,7 @@ export default async (): Promise<string> => {
     } = await getStravaAccessToken();
     const currentDateUnix = new Date().valueOf();
     const expiredDateUnix = expiresAt * 1000;
-    if (expiredDateUnix < currentDateUnix + 3000000) {
+    if (expiredDateUnix < currentDateUnix + 3000000 || accessToken === null) {
         const newAccessToken = await getNewToken(refreshToken);
         return newAccessToken;
     } else {
