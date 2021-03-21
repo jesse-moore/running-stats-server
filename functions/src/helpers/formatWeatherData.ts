@@ -49,6 +49,9 @@ export default function (weatherData: {
         weatherObject()
     );
 
+    if (data.minTemp === null && data.maxTemp === null) {
+        return null;
+    }
     return data;
 }
 

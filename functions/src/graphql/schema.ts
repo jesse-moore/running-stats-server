@@ -37,6 +37,8 @@ const activity = gql`
         location_city: String
         location_state: String
         location_country: String
+        location_country_code: String
+        location_display_name: String
         map: Map
         average_speed: Float
         max_speed: Float
@@ -44,6 +46,7 @@ const activity = gql`
         elev_low: Float
         year: Int
         month: Int
+        weather: Weather
     }
 
     type Latlng {
@@ -55,6 +58,27 @@ const activity = gql`
         id: String
         summary_polyline: String
         resource_state: Int
+    }
+
+    type Weather {
+        windDirection: Float
+        cloudCover: Float
+        minTemp: Float
+        maxTemp: Float
+        precip: Float
+        solarRadiation: Float
+        dewPoint: Float
+        humidity: Float
+        visibility: Float
+        windSpeed: Float
+        heatIndex: Float
+        snowDepth: Float
+        maxPressure: Float
+        minPressure: Float
+        snow: Float
+        windGust: Float
+        conditions: [String]
+        windChill: Float
     }
 `;
 

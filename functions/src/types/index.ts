@@ -19,6 +19,7 @@ export interface ActivityObject {
     location_city: string | null;
     location_state: string | null;
     location_country: string;
+    location_country_code: string;
     map: {
         id: string;
         summary_polyline: string;

@@ -17,7 +17,6 @@ export const getActivities = async ({
     page,
     perPage,
 }: FindArgs): Promise<ActivityModel[]> => {
-    const result = [];
     try {
         const activities = await findActivities({
             page,
@@ -25,8 +24,7 @@ export const getActivities = async ({
             month,
             year,
         });
-        result.push(...activities);
-        return result;
+        return activities;
     } catch (error) {
         throw new ApolloError(error);
     }
