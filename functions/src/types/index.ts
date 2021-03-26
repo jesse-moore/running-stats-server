@@ -1,4 +1,4 @@
-import { Document, ObjectId, Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { WriteError } from 'mongodb';
 
 export interface ActivityObject {
@@ -32,6 +32,13 @@ export interface ActivityObject {
     month: number;
     year: number;
     weather: WeatherData | null;
+    best_efforts: {
+        name: string;
+        elapsed_time: number;
+        distance: number;
+        start_index: number;
+        end_index: number;
+    }[];
 }
 
 export interface WeatherData {

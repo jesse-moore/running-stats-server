@@ -1,9 +1,6 @@
-import { Schema, model, ObjectId } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import makeStatID from '../../utils/makeStatID';
-import {
-    StatModel,
-    StatObject,
-} from '../../types';
+import { StatModel, StatObject } from '../../types';
 
 const numberDefault = {
     type: Number,
@@ -15,21 +12,6 @@ const numberDefaultPositive = {
     default: 0,
     min: 0,
 };
-
-const topActivities: Map<
-    string,
-    { type: typeof Schema.Types.ObjectId; ref: string }[]
-> = new Map([
-    ['distance', [{ type: Schema.Types.ObjectId, ref: 'Activity' }]],
-    ['moving_time', [{ type: Schema.Types.ObjectId, ref: 'Activity' }]],
-    [
-        'total_elevation_gain',
-        [{ type: Schema.Types.ObjectId, ref: 'Activity' }],
-    ],
-    ['average_speed', [{ type: Schema.Types.ObjectId, ref: 'Activity' }]],
-    ['elev_high', [{ type: Schema.Types.ObjectId, ref: 'Activity' }]],
-    ['elev_low', [{ type: Schema.Types.ObjectId, ref: 'Activity' }]],
-]);
 
 const statSchema = new Schema({
     type: String,
@@ -69,8 +51,7 @@ const statSchema = new Schema({
     },
     topActivities: {
         type: Map,
-        of: [{ type: Schema.Types.ObjectId, ref: 'Activity' }],
-        default: topActivities,
+        of: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Activity' }],
     },
     total_distance: numberDefaultPositive,
     average_distance: numberDefaultPositive,

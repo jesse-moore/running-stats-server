@@ -15,6 +15,15 @@ const mapSchema = {
     polyline: { type: String, maxlength: 100000, default: null },
 };
 
+const bestEffortSchema = {
+    name: String,
+    elapsed_time: Number,
+    distance: Number,
+    start_index: Number,
+    end_index: Number,
+    _id: false,
+};
+
 const weatherSchema = {
     windDirection: Number,
     cloudCover: Number,
@@ -34,6 +43,7 @@ const weatherSchema = {
     windGust: Number,
     conditions: [String],
     windChill: Number,
+    _id: false,
 };
 
 const activitySchema = new Schema({
@@ -81,6 +91,7 @@ const activitySchema = new Schema({
         required: true,
     },
     weather: { type: weatherSchema, default: null },
+    best_efforts: { type: [bestEffortSchema], default: null },
 });
 
 function transformLatLng(latLng: [number, number]) {
