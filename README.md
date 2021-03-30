@@ -31,9 +31,11 @@
 * Saves run data and stats to database.
 
 ## Roadmap
-- [ ] Add fastest splits by 1km, 5km, 10km, 21.1km, and 42.2km to stats.
-- [ ] Add top segments to stats.
-- [ ] Add weather related stats.
+- [ ] ([#16][i16]) Add fastest splits by 1km, 5km, 10km, 21.1km, and 42.2km to stats.
+- [ ] ([#17][i17]) Add top segments to stats.
+- [ ] ([#18][i18]) Add weather related stats.
+- [ ] ([#15][i15]) Populate top activities in stats query
+- [ ] ([#19][i19]) Fix issue with weather api
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -46,6 +48,11 @@
 [graphql-badge]: https://img.shields.io/badge/GraphQL-222222?style=flat-square&logo=graphql&logoColor=E10098
 [firebase-url]: https://firebase.google.com/
 [firebase-badge]: https://img.shields.io/badge/Firebase-222222?style=flat-square&logo=firebase&logoColor=FFCA28
+[i16]: https://github.com/jesse-moore/running-stats-server/issues/16
+[i15]: https://github.com/jesse-moore/running-stats-server/issues/15
+[i17]: https://github.com/jesse-moore/running-stats-server/issues/17
+[i18]: https://github.com/jesse-moore/running-stats-server/issues/18
+[i19]: https://github.com/jesse-moore/running-stats-server/issues/19
 
 
 
