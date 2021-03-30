@@ -3,7 +3,7 @@
         "module": "commonjs",
         "noImplicitReturns": true,
         // "noUnusedLocals": true,
-        "outDir": "lib",
+        "outDir": "functions/lib",
         "sourceMap": true,
         "strict": true,
         "target": "ES6",
@@ -12,6 +12,6 @@
         "resolveJsonModule": true
     },
     "compileOnSave": true,
-    "include": ["src"],
-	"exclude": ["test_db"],
+    "include": ["functions/src"],
+	"exclude": ["functions/test_db"],
 }
