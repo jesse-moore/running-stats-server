@@ -31,7 +31,7 @@
 * Saves run data and stats to database.
 
 ## Roadmap
-- [ ] ([#20][i20]) Add best effort splits to activities
+- [X] ([#20][i20]) Add best effort splits to activities
 - [ ] ([#16][i16]) Add fastest splits by 1km, 5km, 10km, 21.1km, and 42.2km to stats.
 - [ ] ([#17][i17]) Add top segments to stats.
 - [ ] ([#18][i18]) Add weather related stats.
