@@ -47,6 +47,7 @@ const activity = gql`
         year: Int
         month: Int
         weather: Weather
+		best_efforts: [JSON]
     }
 
     type Latlng {
@@ -80,6 +81,7 @@ const activity = gql`
         conditions: [String]
         windChill: Float
     }
+
 `;
 
 const stat = gql`
@@ -108,6 +110,7 @@ const stat = gql`
         average_speed: Float
         daysOfWeek: JSON
         periodOfDay: JSON
+        topActivities: JSON
     }
 `;
 

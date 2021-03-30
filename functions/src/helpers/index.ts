@@ -56,6 +56,7 @@ export const getStat = async ({
         }
         const stat_id = makeStatID(year, month);
         const stat = await findStat(stat_id);
+        if (!stat) return null;
         return stat;
     } catch (error) {
         throw new ApolloError(error);
