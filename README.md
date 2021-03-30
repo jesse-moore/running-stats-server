@@ -34,7 +34,7 @@
 - [ ] ([#16][i16]) Add fastest splits by 1km, 5km, 10km, 21.1km, and 42.2km to stats.
 - [ ] ([#17][i17]) Add top segments to stats.
 - [ ] ([#18][i18]) Add weather related stats.
-- [ ] ([#15][i15]) Populate top activities in stats query
+- [ ] ~~([#15][i15]) Populate top activities in stats query~~
 - [ ] ([#19][i19]) Fix issue with weather api
 
 
