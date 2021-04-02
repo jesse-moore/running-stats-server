@@ -9,13 +9,14 @@
         "start": "npm run shell",
         "deploy": "cd ../ && firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "test": "mocha --reporter spec"
+        "test": "mocha -r ts-node/register 'src/test/**/*.ts'"
     },
     "engines": {
         "node": "12"
     },
     "main": "lib/src/index.js",
     "dependencies": {
+        "@types/mocha": "^8.2.2",
         "apollo-server-express": "^2.21.0",
         "axios": "^0.21.1",
         "chai": "^4.3.4",
