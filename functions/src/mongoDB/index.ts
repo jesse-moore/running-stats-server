@@ -9,9 +9,11 @@ export {
     findStats,
     findAvailableStats,
     getIndexSet,
+    clearDatabase,
 } from './queries';
 
 export const connectMongoose = async (): Promise<void> => {
+    if (mongoose.connection.readyState !== 0) return;
     mongoose.set('useFindAndModify', false);
     mongoose.set('useCreateIndex', true);
     // mongoose.set('debug', true);
@@ -28,5 +30,7 @@ export const connectMongoose = async (): Promise<void> => {
 };
 
 export const closeMongoose = async (): Promise<void> => {
+    const readyState = mongoose.connection.readyState;
+    if (readyState === 0 || readyState === 3) return;
     await mongoose.connection.close();
 };

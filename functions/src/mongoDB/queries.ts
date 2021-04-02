@@ -2,6 +2,15 @@ import Activity from './models/activity';
 import Stat from './models/stat';
 import { ActivityModel, StatModel } from '../types';
 
+export const clearDatabase = async () => {
+    try {
+        await Activity.deleteMany({});
+        await Stat.deleteMany({});
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 export const findActivityByID = async (
     id: string
 ): Promise<ActivityModel | null> => {
