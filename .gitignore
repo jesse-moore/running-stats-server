@@ -64,9 +64,8 @@ node_modules/
 
 # dotenv environment variables file
 .env
-functions/src/test/index.test.ts
 functions/lib
 keys.json
 functions/test_db
 .env.ts
-functions/firebase_testing
+functions/firebase_testing_db
