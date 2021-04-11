@@ -4,8 +4,8 @@ import { ActivityModel, StatModel } from '../types';
 
 export const clearDatabase = async () => {
     try {
-        await Activity.deleteMany({});
-        await Stat.deleteMany({});
+        await Activity.deleteMany();
+		await Stat.deleteMany();
     } catch (error) {
         throw new Error(error.message);
     }

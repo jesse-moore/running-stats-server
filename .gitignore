@@ -67,5 +67,5 @@ node_modules/
 functions/lib
 keys.json
 functions/test_db
-.env.ts
+config.env.ts
 functions/firebase_testing_db

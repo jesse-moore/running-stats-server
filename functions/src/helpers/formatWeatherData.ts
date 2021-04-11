@@ -1,4 +1,5 @@
 import { WeatherData } from '../types';
+import { toFixed, min, max } from '../utils/math';
 
 export default function (weatherData: {
     [k: string]: any;
@@ -35,9 +36,15 @@ export default function (weatherData: {
             });
 
             if (values.length > 1 && i + 1 === values.length) {
-                a.windDirection = Math.round(a.windDirection / values.length);
-                a.cloudCover = Math.round(a.cloudCover / values.length);
-                a.dewPoint = Math.round(a.dewPoint / values.length);
+                a.windDirection = toFixed(
+                    Math.round(a.windDirection / values.length),
+                    2
+                );
+                a.cloudCover = toFixed(
+                    Math.round(a.cloudCover / values.length),
+                    2
+                );
+                a.dewPoint = toFixed(Math.round(a.dewPoint / values.length), 2);
             }
 
             if (values.length === i + 1) {
@@ -76,14 +83,4 @@ function weatherObject() {
         conditions: [],
         windChill: null,
     };
-}
-
-function max(a: number, b: number) {
-    if (a === null) return b;
-    return a < b ? b : a;
-}
-
-function min(a: number, b: number) {
-    if (a === null) return b;
-    return a > b ? b : a;
 }

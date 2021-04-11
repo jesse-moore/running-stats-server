@@ -12,6 +12,6 @@
         "resolveJsonModule": true
     },
     "compileOnSave": true,
-    "include": ["src"],
-	"exclude": ["test_db"],
+    "include": ["src/**/*.ts", "tests/**/*.ts", "src/utils/.env.ts"],
+    "exclude": ["test_db"]
 }

@@ -15,7 +15,9 @@ export default async (activity: ActivityModel): Promise<WeatherData | null> => {
         );
         return null;
     }
+	console.log(weatherData)
     const formattedWeather = formatWeatherData(weatherData);
+	console.log(formattedWeather)
     if (formattedWeather === null) {
         console.warn(
             `Failed to format weather data for activity id: ${activity.strava_id}`
@@ -31,7 +33,7 @@ export default async (activity: ActivityModel): Promise<WeatherData | null> => {
     return weather.toObject();
 };
 
-function parseActivity(
+export function parseActivity(
     activity: ActivityModel
 ): {
     id: string;

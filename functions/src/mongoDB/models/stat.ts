@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose';
 import makeStatID from '../../utils/makeStatID';
 import { StatModel, StatObject } from '../../types';
 
@@ -74,4 +74,4 @@ statSchema.set('toJSON', {
     },
 });
 
-export default model<StatModel>('Stat', statSchema);
+export default models.Stat || model<StatModel>('Stat', statSchema);
