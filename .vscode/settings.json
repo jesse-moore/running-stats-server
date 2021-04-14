@@ -1,3 +1,4 @@
 {
-	"mocha.subdirectory": "C:\\d:\\web\\strava-stats\\functions\\test"
+	"mocha.subdirectory": "C:\\d:\\web\\strava-stats\\functions\\test",
+	"mocha-snippets.function-type": "function"
 }

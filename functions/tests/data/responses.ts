@@ -287,3 +287,11 @@ export const weather_data_invalid = {
         ],
     },
 };
+
+export const strava_access_token = {
+    data: {
+        access_token: 'accessTokenFromStrava',
+        expires_at: 500,
+        refresh_token: 'refreshToken',
+    },
+};

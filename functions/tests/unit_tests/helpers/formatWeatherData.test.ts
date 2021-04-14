@@ -25,7 +25,6 @@ describe('formatWeatherData', function () {
     });
     it('should format weather correctly when there is mulitple values in array', function () {
         const result = formatWeatherData(weather_data_multiple_values);
-        console.log(result);
         expect(result).deep.equal(formatterWeatherMultipleValues);
     });
     it('should null if no max or min temp', function () {

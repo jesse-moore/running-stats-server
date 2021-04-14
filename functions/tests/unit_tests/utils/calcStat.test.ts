@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 import calcStats, { calculateBaseStat } from '../../../src/utils/calcStats';
 import Activity from '../../../src/mongoDB/models/activity';
@@ -13,7 +12,6 @@ describe('Add Initial Activity to Empty Database', function () {
     let monthStat: StatModel;
     before(function () {
         activity = new Activity(rawActivities.activity_04_07_2021);
-        console.log(activity);
     });
     it('should create overall, year and month stat', function () {
         const stats = calcStats([activity], null);
@@ -31,7 +29,6 @@ describe('Add Initial Activity to Empty Database', function () {
     it('should add base stats', function () {
         const stat: StatModel = new Stat();
         calculateBaseStat(stat, activity);
-        console.log(stat);
         expect(stat.count).equal(1);
         expect(stat.total_distance).equal(8494.7);
         expect(stat.average_distance).equal(8494.7);

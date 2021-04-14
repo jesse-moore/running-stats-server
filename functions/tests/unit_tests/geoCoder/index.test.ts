@@ -3,7 +3,7 @@ import sinon, { SinonSandbox } from 'sinon';
 import axios from 'axios';
 import { fetchLocationData } from '../../../src/geoCoder';
 
-describe('makeStatID', function () {
+describe('geoCoder', function () {
     let sandbox: SinonSandbox;
     beforeEach(() => {
         sandbox = sinon.createSandbox();

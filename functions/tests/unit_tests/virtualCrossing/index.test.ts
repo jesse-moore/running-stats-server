@@ -24,7 +24,6 @@ describe('fetchWeather', function () {
     it('should return correct data', async function () {
         sandbox.stub(axios, 'get').resolves(Promise.resolve({ data: 'data' }));
         const data = await fetchWeather(parsedActivity);
-        console.log(data);
         expect(data).to.equal('data');
     });
     it('should return null if fetch is rejected', async function () {

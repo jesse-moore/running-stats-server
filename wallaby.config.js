@@ -17,31 +17,23 @@ module.exports = function (wallaby) {
             runner: 'node',
         },
         setup: (wallaby) => {
-            // const mocha = wallaby.testFramework;
-
             const chai = require('chai');
             chai.should();
-            // const sinon = require('sinon');
-
             chai.use(require('sinon-chai'));
             chai.use(require('chai-like'));
 
-            // setup sinon hooks
-            // mocha.suite.beforeEach('sinon before', function () {
-            //     if (null == this.sinon) {
-            //         this.sinon = sinon.createSandbox();
-            //     }
-            // });
-            // mocha.suite.afterEach('sinon after', function () {
-            //     if (this.sinon && 'function' === typeof this.sinon.restore) {
-            //         this.sinon.restore();
-            //     }
-            // });
+            const admin = require('firebase-admin');
+            require('firebase-functions-test')();
+            if (!admin.apps || admin.apps.length === 0) admin.initializeApp();
 
             global.expect = require('chai').expect;
         },
         testFramework: 'mocha',
-        filesWithNoCoverageCalculated: ['functions/src/utils/errorHandler.ts'],
+        filesWithNoCoverageCalculated: [
+            'functions/src/utils/errorHandler.ts',
+            'functions/src/graphql/schema.ts',
+        ],
         runMode: 'onsave',
+        trace: true,
     };
 };

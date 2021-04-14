@@ -9,12 +9,12 @@
         "start": "npm run shell",
         "deploy": "cd ../ && firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "test": "nyc --reporter=text mocha -r ts-node/register 'functions/test/**/*.test.ts'"
+        "test": "nyc --reporter=text mocha -r ts-node/register 'tests/unit_tests/**/*.test.ts'"
     },
     "engines": {
         "node": "12"
     },
-    "main": "functions/lib/src/index.js",
+    "main": "lib/src/index.js",
     "dependencies": {
         "@types/mocha": "^8.2.2",
         "apollo-server-express": "^2.21.0",
