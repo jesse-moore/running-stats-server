@@ -40,10 +40,10 @@ export const findActivities = async ({
     year,
     month,
 }: {
-    page: number | undefined;
-    perPage: number | undefined;
-    year: number | undefined;
-    month: number | undefined;
+    page?: number | undefined;
+    perPage?: number | undefined;
+    year?: number | undefined;
+    month?: number | undefined;
 }): Promise<ActivityModel[]> => {
     try {
         const skip = page * perPage;
@@ -64,7 +64,7 @@ export const findActivitiesById = async ({
     ids = [],
     projection = {},
 }: {
-    ids?: string[];
+    ids: string[];
     projection?: { [k: string]: number };
 }): Promise<ActivityModel[]> => {
     try {
