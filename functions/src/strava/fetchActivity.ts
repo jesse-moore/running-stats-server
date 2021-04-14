@@ -8,9 +8,7 @@ export default async (
     const baseURL = 'https://www.strava.com/api/v3/';
     const url = `${baseURL}activities/${id}`;
     try {
-        const response = await axios({
-            method: 'get',
-            url,
+        const response = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 Accept: 'application/json',
@@ -28,10 +26,9 @@ export default async (
             console.warn(`Strava Fetch Error: activity id: ${id} not found`);
             return null;
         }
-        console.error(
-            'Strava Fetch Error: Failed to fetch activity id: ${id} from strava'
-        );
         handleAxiosError(error);
-        throw new Error();
+        throw new Error(
+            `Strava Fetch Error: Failed to fetch activity id: ${id} from strava`
+        );
     }
 };
