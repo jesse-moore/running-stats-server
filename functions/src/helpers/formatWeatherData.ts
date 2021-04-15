@@ -1,9 +1,7 @@
 import { WeatherData } from '../types';
 import { toFixed, min, max } from '../utils/math';
 
-export default function (weatherData: {
-    [k: string]: any;
-}): WeatherData | null {
+export default (weatherData: { [k: string]: any }): WeatherData | null => {
     if (!weatherData.location || !weatherData.location.values) return null;
     const { values } = weatherData.location;
     if (!Array.isArray(values)) return null;
@@ -36,15 +34,24 @@ export default function (weatherData: {
             });
 
             if (values.length > 1 && i + 1 === values.length) {
-                a.windDirection = toFixed(
-                    Math.round(a.windDirection / values.length),
-                    2
-                );
-                a.cloudCover = toFixed(
-                    Math.round(a.cloudCover / values.length),
-                    2
-                );
-                a.dewPoint = toFixed(Math.round(a.dewPoint / values.length), 2);
+                if (a.windDirection !== null && a.windDirection !== undefined) {
+                    a.windDirection = toFixed(
+                        Math.round(a.windDirection / values.length),
+                        2
+                    );
+                }
+                if (a.cloudCover !== null && a.cloudCover !== undefined) {
+                    a.cloudCover = toFixed(
+                        Math.round(a.cloudCover / values.length),
+                        2
+                    );
+                }
+                if (a.dewPoint !== null && a.dewPoint !== undefined) {
+                    a.dewPoint = toFixed(
+                        Math.round(a.dewPoint / values.length),
+                        2
+                    );
+                }
             }
 
             if (values.length === i + 1) {
@@ -60,7 +67,7 @@ export default function (weatherData: {
         return null;
     }
     return data;
-}
+};
 
 function weatherObject() {
     return {

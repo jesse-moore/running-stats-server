@@ -12,7 +12,7 @@ describe('', function () {
     let activity: ActivityModel;
     beforeEach(() => {
         sandbox = sinon.createSandbox();
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
     });
     afterEach(() => {
         sandbox.restore();

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon, { SinonSandbox, SinonSpy, SinonStub } from 'sinon';
-import * as response from '../../data/responses';
 import {
     clearDatabase,
     findActivities,

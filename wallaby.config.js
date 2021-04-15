@@ -32,6 +32,8 @@ module.exports = function (wallaby) {
         filesWithNoCoverageCalculated: [
             'functions/src/utils/errorHandler.ts',
             'functions/src/graphql/schema.ts',
+            'functions/tests/data/*.*',
+            'functions/tests/helpers/*.ts',
         ],
         runMode: 'onsave',
         trace: true,

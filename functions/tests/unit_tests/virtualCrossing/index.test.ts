@@ -14,7 +14,7 @@ describe('fetchWeather', function () {
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
         parsedActivity = parseActivity(activity);
     });
     afterEach(() => {

@@ -25,13 +25,13 @@ describe('', function () {
     });
     it('should return null if fetching weather fails', async function () {
         sandbox.stub(axios, 'get').resolves(Promise.reject());
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
         const result = await getActivityWeather(activity);
         expect(result).null;
     });
     it('should return null if parsing weather fails', async function () {
         sandbox.stub(axios, 'get').resolves(Promise.resolve({ data: {} }));
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
         const result = await getActivityWeather(activity);
         expect(result).null;
     });
@@ -39,7 +39,7 @@ describe('', function () {
         sandbox
             .stub(axios, 'get')
             .resolves(Promise.resolve({ data: weather_data_invalid }));
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
         const result = await getActivityWeather(activity);
         expect(result).null;
     });
@@ -47,7 +47,7 @@ describe('', function () {
         sandbox
             .stub(axios, 'get')
             .resolves(Promise.resolve({ data: weather_data }));
-        activity = new Activity(rawActivities.activity_03_28_2021);
+        activity = new Activity(rawActivities.test_activity_1);
         const result = await getActivityWeather(activity);
         expect(result).to.not.undefined;
     });

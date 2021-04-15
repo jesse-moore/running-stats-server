@@ -1,0 +1,139 @@
+{
+    "daysOfWeek": {
+        "mo": 116,
+        "tu": 136,
+        "we": 82,
+        "th": 119,
+        "fr": 99,
+        "sa": 114,
+        "su": 74
+    },
+    "periodOfDay": {
+        "earlyMorning": 57,
+        "morning": 97,
+        "afternoon": 253,
+        "evening": 328,
+        "night": 5
+    },
+    "total_distance": 6972179.8,
+    "average_distance": 9421.864594594594,
+    "total_elev_gain": 71038.19999999997,
+    "average_elev_gain": 95.99756756756753,
+    "total_moving_time": 2196197,
+    "average_moving_time": 2967.833783783784,
+    "count": 740,
+    "average_speed": 3.174660469894094,
+    "type": "all",
+    "stat_id": 0,
+    "year": null,
+    "month": null,
+    "topActivities": {
+        "distance": [
+            "5fd818d29171ea57e0d38aeb",
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38c33",
+            "5fd818d29171ea57e0d38b33",
+            "5fd818d29171ea57e0d38b88"
+        ],
+        "moving_time": [
+            "5fd818d29171ea57e0d38aeb",
+            "5fd818d29171ea57e0d38b88",
+            "5fd818d29171ea57e0d38c33",
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38b33"
+        ],
+        "total_elevation_gain": [
+            "5fd818d29171ea57e0d38aeb",
+            "5fd818d29171ea57e0d38b88",
+            "5fd818d29171ea57e0d38bfe",
+            "5fd818d29171ea57e0d38ab4",
+            "5fd818d29171ea57e0d38ab7"
+        ],
+        "average_speed": [
+            "5fd818d39171ea57e0d38cad",
+            "5fd818d39171ea57e0d38ca7",
+            "5fd818d29171ea57e0d38c30",
+            "5fd818d39171ea57e0d38cb3",
+            "5fd818d39171ea57e0d38ca3"
+        ],
+        "elev_high": [
+            "5fd818d39171ea57e0d38cad",
+            "5fd818d29171ea57e0d38ab4",
+            "5fd818d29171ea57e0d38ab7",
+            "5fd818d29171ea57e0d38a6b",
+            "5fd818d29171ea57e0d38a93"
+        ],
+        "elev_low": [
+            "5fd818d39171ea57e0d38ca6",
+            "5fd818d39171ea57e0d38caa",
+            "5fd818d39171ea57e0d38ca2",
+            "5fd818d39171ea57e0d38ca8",
+            "5fd818d39171ea57e0d38cac"
+        ],
+        "10k": [
+            "5fd818d29171ea57e0d38ac4",
+            "5fd818d29171ea57e0d38ab2",
+            "5fd818d29171ea57e0d38b12"
+        ],
+        "15k": [
+            "5fd818d39171ea57e0d38c5f",
+            "5fd818d29171ea57e0d38b38",
+            "5fd818d29171ea57e0d38b41"
+        ],
+        "1k": [
+            "5fd818d39171ea57e0d38cb1",
+            "5fd818d39171ea57e0d38ca6",
+            "5fd818d39171ea57e0d38cb4"
+        ],
+        "20k": [
+            "5fd818d39171ea57e0d38c5f",
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38b38"
+        ],
+        "30k": [
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38b3d",
+            "5fd818d29171ea57e0d38b33"
+        ],
+        "400m": [
+            "5fd818d39171ea57e0d38cb1",
+            "5fd818d39171ea57e0d38ca7",
+            "5fd818d39171ea57e0d38ca1"
+        ],
+        "5k": [
+            "5fd818d29171ea57e0d38ac4",
+            "5fd818d29171ea57e0d38ab2",
+            "5fd818d29171ea57e0d38aba"
+        ],
+        "1/2_mile": [
+            "5fd818d39171ea57e0d38ca7",
+            "5fd818d39171ea57e0d38ca6",
+            "5fd818d39171ea57e0d38ca9"
+        ],
+        "1_mile": [
+            "5fd818d39171ea57e0d38ca6",
+            "5fd818d29171ea57e0d38ab2",
+            "5fd818d29171ea57e0d38ac4"
+        ],
+        "10_mile": [
+            "5fd818d39171ea57e0d38c5f",
+            "5fd818d29171ea57e0d38b38",
+            "5fd818d29171ea57e0d38b2e"
+        ],
+        "2_mile": [
+            "5fd818d29171ea57e0d38ab2",
+            "5fd818d29171ea57e0d38ac4",
+            "5fd818d29171ea57e0d38a8a"
+        ],
+        "half_marathon": [
+            "5fd818d39171ea57e0d38c5f",
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38b38"
+        ],
+        "marathon": [
+            "5fd818d29171ea57e0d38b2e",
+            "5fd818d29171ea57e0d38aeb"
+        ]
+    },
+    "id": "5feb408c2eafbf4fa4e54cdd"
+}

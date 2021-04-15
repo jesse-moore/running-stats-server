@@ -3,9 +3,9 @@ import { connectMongoose, closeMongoose } from '../mongoDB';
 import {
     getActivities,
     getActivityByID,
+    getAvailableStats,
     getStat,
     getStats,
-    getAvailableStats,
 } from '../helpers';
 
 export default {
@@ -15,19 +15,19 @@ export default {
             await connectMongoose();
             const response = await getActivities(args);
             await closeMongoose();
-			return response;
+            return response;
         },
         activity: async (_root: any, args: any) => {
             await connectMongoose();
             const response = await getActivityByID(args);
             await closeMongoose();
-			return response;
+            return response;
         },
         stat: async (_root: any, args: { year: number; month: number }) => {
             await connectMongoose();
             const response = await getStat(args);
             await closeMongoose();
-			return response;
+            return response;
         },
         stats: async (
             _root: any,
@@ -36,7 +36,7 @@ export default {
             await connectMongoose();
             const response = await getStats(args.stats);
             await closeMongoose();
-			return response;
+            return response;
         },
         availableStats: async () => {
             await connectMongoose();

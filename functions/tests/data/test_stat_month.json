@@ -1,0 +1,105 @@
+{
+    "daysOfWeek": {
+        "mo": 4,
+        "tu": 0,
+        "we": 0,
+        "th": 3,
+        "fr": 1,
+        "sa": 0,
+        "su": 0
+    },
+    "periodOfDay": {
+        "earlyMorning": 0,
+        "morning": 0,
+        "afternoon": 8,
+        "evening": 0,
+        "night": 0
+    },
+    "total_distance": 68498.3,
+    "average_distance": 8562.2875,
+    "total_elev_gain": 823.6,
+    "average_elev_gain": 102.95,
+    "total_moving_time": 22587,
+    "average_moving_time": 2823.375,
+    "count": 8,
+    "average_speed": 3.032642670562713,
+    "topActivities": {
+        "distance": [
+            "600f588d0f035c4e5425521b",
+            "60324d1ab7ca1863c0cda565",
+            "600f588d0f035c4e5425521d",
+            "5ffdbf847acf566bcc1493dc",
+            "6000bf679252fc2af4439442"
+        ],
+        "moving_time": [
+            "600f588d0f035c4e5425521b",
+            "60324d1ab7ca1863c0cda565",
+            "600f588d0f035c4e5425521d",
+            "5ffdbf847acf566bcc1493dc",
+            "600f588d0f035c4e5425521c"
+        ],
+        "total_elevation_gain": [
+            "600f588d0f035c4e5425521b",
+            "60324d1ab7ca1863c0cda565",
+            "600f588d0f035c4e5425521c",
+            "5ffdbf847acf566bcc1493dc",
+            "600f588d0f035c4e5425521d"
+        ],
+        "average_speed": [
+            "6000bf679252fc2af4439442",
+            "5ffdbf847acf566bcc1493da",
+            "5ffdbf847acf566bcc1493db",
+            "600f588d0f035c4e5425521b",
+            "5ffdbf847acf566bcc1493dc"
+        ],
+        "elev_high": [
+            "600f588d0f035c4e5425521b",
+            "60324d1ab7ca1863c0cda565",
+            "600f588d0f035c4e5425521c",
+            "5ffdbf847acf566bcc1493da",
+            "5ffdbf847acf566bcc1493db"
+        ],
+        "elev_low": [
+            "6000bf679252fc2af4439442",
+            "5ffdbf847acf566bcc1493dc",
+            "600f588d0f035c4e5425521d",
+            "600f588d0f035c4e5425521b",
+            "5ffdbf847acf566bcc1493da"
+        ],
+        "10k": ["600f588d0f035c4e5425521b", "60324d1ab7ca1863c0cda565"],
+        "1k": [
+            "5ffdbf847acf566bcc1493db",
+            "6000bf679252fc2af4439442",
+            "5ffdbf847acf566bcc1493dc"
+        ],
+        "400m": [
+            "5ffdbf847acf566bcc1493db",
+            "5ffdbf847acf566bcc1493dc",
+            "6000bf679252fc2af4439442"
+        ],
+        "5k": [
+            "6000bf679252fc2af4439442",
+            "600f588d0f035c4e5425521b",
+            "5ffdbf847acf566bcc1493dc"
+        ],
+        "1/2_mile": [
+            "5ffdbf847acf566bcc1493db",
+            "5ffdbf847acf566bcc1493dc",
+            "6000bf679252fc2af4439442"
+        ],
+        "1_mile": [
+            "5ffdbf847acf566bcc1493db",
+            "6000bf679252fc2af4439442",
+            "5ffdbf847acf566bcc1493dc"
+        ],
+        "2_mile": [
+            "6000bf679252fc2af4439442",
+            "5ffdbf847acf566bcc1493db",
+            "5ffdbf847acf566bcc1493da"
+        ]
+    },
+    "year": 2021,
+    "month": 4,
+    "stat_id": 202104,
+    "id": "604b77e92276971ed8aeac7a"
+}

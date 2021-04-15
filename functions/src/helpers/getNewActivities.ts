@@ -1,8 +1,6 @@
 import { getStravaAccessToken } from '../strava';
 import statusLogger from '../utils/statusLogger';
-import getNewActivity from './getNewActivity';
-import getActivityWeather from './getActivityWeather';
-import getActivityLocation from './getActivityLocation';
+import { getNewActivity, getActivityLocation, getActivityWeather } from './';
 import { ActivityModel } from '../types';
 
 export default async (newIdsQueue: number[]): Promise<ActivityModel[]> => {
@@ -10,7 +8,7 @@ export default async (newIdsQueue: number[]): Promise<ActivityModel[]> => {
     const newActivities: ActivityModel[] = [];
     for (const id of newIdsQueue) {
         const activity = await getNewActivity(id, accessToken);
-        if (activity === null) continue;
+        if (!activity) continue;
         const location = await getActivityLocation(activity);
         if (location) {
             activity.location_city = location.city;

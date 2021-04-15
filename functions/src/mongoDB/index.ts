@@ -18,14 +18,12 @@ export const connectMongoose = async (): Promise<void> => {
     mongoose.set('useCreateIndex', true);
     // mongoose.set('debug', true);
     try {
-        if (typeof config.mongodb.uri !== 'string')
-            throw Error('Invaild Mongo URI');
         await mongoose.connect(config.mongodb.uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
     } catch (error) {
-        console.error('error connection to MongoDB:', error.message);
+		throw new Error(`error connecting to MongoDB: ${error.message}`)
     }
 };
 

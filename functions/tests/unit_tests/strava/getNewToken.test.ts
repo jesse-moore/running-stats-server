@@ -1,51 +1,32 @@
 import { expect } from 'chai';
-import sinon, { SinonSandbox, SinonSpy, SinonStub } from 'sinon';
-import * as admin from 'firebase-admin';
-import fft from 'firebase-functions-test';
-const test = fft();
+import sinon, { SinonSandbox, SinonStub } from 'sinon';
 import axios from 'axios';
+import * as firebase from '../../../src/firebase';
 import { STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET } from '../../../src/keys.json';
 import { strava_access_token } from '../../data/responses';
+import getNewToken from '../../../src/strava/getNewToken';
 
 describe('(Strava) - getNewToken', async function () {
-    let getNewToken: any;
     let sandbox: SinonSandbox;
-    let adminInitStub: SinonStub;
-    let firestoreStub: SinonStub;
-    let fakeSet: SinonSpy;
     let axiosStub: SinonStub;
-    let firestore: SinonStub;
+    let firebaseStub: SinonStub;
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
         axiosStub = sandbox.stub(axios, 'post');
         axiosStub.resolves(Promise.resolve(strava_access_token));
-        adminInitStub = sandbox.stub(admin, 'initializeApp');
-        firestoreStub = sandbox.stub();
-        firestore = sandbox.stub(admin, 'firestore').get(() => firestoreStub);
-        fakeSet = sandbox.fake();
-        firestoreStub.returns({
-            collection: () => {
-                return {
-                    doc: () => {
-                        return { set: fakeSet };
-                    },
-                };
-            },
-        });
-        getNewToken = require('../../../src/strava/getNewToken').default;
+        firebaseStub = sandbox.stub(firebase, 'saveNewToken');
     });
 
     afterEach(() => {
         sandbox.restore();
         axiosStub.restore();
-        test.cleanup();
     });
 
     it('should make get request once', async function () {
         await getNewToken('token');
         axiosStub.should.have.been.calledOnce;
-        firestoreStub.should.have.been.calledOnce;
+        firebaseStub.should.have.been.calledOnce;
     });
     it('should make get request with correct arguments', async function () {
         const token = 'token';
@@ -68,6 +49,3 @@ describe('(Strava) - getNewToken', async function () {
         }
     });
 });
-
-// docStub.returns({ set: () => Promise.resolve() });
-// refStub.withArgs(collection).returns({ doc: addStub });

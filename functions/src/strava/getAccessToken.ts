@@ -1,5 +1,5 @@
 import { getStravaAccessToken } from '../firebase';
-import getNewToken from './getNewToken';
+import { getNewToken } from './';
 
 export default async (): Promise<string> => {
     const {

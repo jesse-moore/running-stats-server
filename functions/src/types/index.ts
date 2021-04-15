@@ -42,27 +42,27 @@ export interface ActivityObject {
 }
 
 export interface WeatherData {
-    windDirection: number;
-    cloudCover: number;
-    minTemp: number;
-    maxTemp: number;
-    precip: number;
-    solarRadiation: number;
-    dewPoint: number;
-    humidity: number;
-    visibility: number;
-    windSpeed: number;
-    heatIndex: number;
-    snowDepth: number;
-    maxPressure: number;
-    minPressure: number;
-    snow: number;
-    windGust: number;
-    conditions: string[];
-    windChill: number;
-    sunrise: string;
-    sunset: string;
-    moonPhase: number;
+    windDirection?: number | null;
+    cloudCover?: number | null;
+    minTemp?: number | null;
+    maxTemp?: number | null;
+    precip?: number | null;
+    solarRadiation?: number | null;
+    dewPoint?: number | null;
+    humidity?: number | null;
+    visibility?: number | null;
+    windSpeed?: number | null;
+    heatIndex?: number | null;
+    snowDepth?: number | null;
+    maxPressure?: number | null;
+    minPressure?: number | null;
+    snow?: number | null;
+    windGust?: number | null;
+    conditions?: string[] | null;
+    windChill?: number | null;
+    sunrise?: string | null;
+    sunset?: string | null;
+    moonPhase?: number | null;
 }
 
 export interface WeatherModel extends WeatherData, Document {}

@@ -1,7 +1,7 @@
 import { ActivityModel } from '../types';
 import { fetchLocationData } from '../geoCoder';
 
-export default async function (activity: ActivityModel) {
+export default async (activity: ActivityModel) => {
     try {
         const location = await fetchLocationData(activity.start_latlng);
         if (!location) return null;
@@ -16,7 +16,7 @@ export default async function (activity: ActivityModel) {
         );
         return null;
     }
-}
+};
 
 function parseCityName(address: {
     city: string;

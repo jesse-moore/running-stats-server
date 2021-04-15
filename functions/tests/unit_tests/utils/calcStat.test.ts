@@ -11,7 +11,7 @@ describe('Add Initial Activity to Empty Database', function () {
     let yearStat: StatModel;
     let monthStat: StatModel;
     before(function () {
-        activity = new Activity(rawActivities.activity_04_07_2021);
+        activity = new Activity(rawActivities.test_activity_5);
     });
     it('should create overall, year and month stat', function () {
         const stats = calcStats([activity], null);

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import makeStatID from '../../../src/utils/makeStatID';
-require("../index.test")
 
 describe('makeStatID', function(){
 	it('should return "202104"', function(){

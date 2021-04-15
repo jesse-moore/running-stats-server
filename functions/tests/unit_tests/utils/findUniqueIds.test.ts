@@ -9,14 +9,14 @@ describe.skip('makeStatID', function () {
     let stats: StatModel[] = [];
     beforeEach(() => {
         const {
-            activity_04_01_2021,
-            activity_04_05_2021,
-            activity_04_07_2021,
+            test_activity_1,
+            test_activity_2,
+            test_activity_3,
         } = rawActivities;
         const activities = [
-            activity_04_01_2021,
-            activity_04_05_2021,
-            activity_04_07_2021,
+            test_activity_1,
+            test_activity_2,
+            test_activity_3,
         ].map((act) => new Activity(act));
         stats = calcStats(activities, null);
     });
