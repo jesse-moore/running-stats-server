@@ -120,4 +120,5 @@ activitySchema.set('toJSON', {
     },
 });
 
-export default models.Activity || model<ActivityModel>('Activity', activitySchema);
+export default models.Activity ||
+    model<ActivityModel>('Activity', activitySchema);
