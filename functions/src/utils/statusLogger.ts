@@ -1,7 +1,7 @@
 import { MongoError } from 'mongodb';
 import { CallbackError } from 'mongoose';
 
-type StatusObject = {
+export type StatusObject = {
     validationErrors: { id: number; error: CallbackError }[];
     databaseErrors: MongoError[];
     init(): void;
@@ -30,8 +30,6 @@ const statusObject: StatusObject = {
         this.validationErrors.forEach((error) => {
             if (error.error?.message) {
                 console.error(error.error.message);
-            } else {
-                console.error(`Error: ${error.error?.name}`);
             }
         });
 

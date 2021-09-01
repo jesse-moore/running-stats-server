@@ -19,7 +19,9 @@ export default async function (req: Request, res: Response): Promise<void> {
         // { upsert: false, multi: true }
 
         // console.log(activities);
-        res.sendStatus(200);
+        const stat = await Stat.findOne({ stat_id: 0 });
+        // res.sendStatus(200);
+        res.json(stat);
     } catch (error) {
         console.log(error);
         res.status(500);

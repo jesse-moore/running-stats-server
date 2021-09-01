@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -120,4 +120,5 @@ activitySchema.set('toJSON', {
     },
 });
 
-export default model<ActivityModel>('Activity', activitySchema);
+export default models.Activity ||
+    model<ActivityModel>('Activity', activitySchema);

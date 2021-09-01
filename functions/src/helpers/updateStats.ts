@@ -1,10 +1,11 @@
-import calcStats from '../utils/calcStats';
+import { calcStats } from '../utils';
 import { ActivityModel, StatModel, TopActivityMetrics } from '../types';
 import makeStatID from '../utils/makeStatID';
 import { findStats, findActivitiesById } from '../mongoDB';
 
 export default async (activities: ActivityModel[]) => {
     try {
+        if (activities.length === 0) return [];
         const stat_ids = new Set<number>();
         activities.forEach(({ year, month }) => {
             stat_ids.add(makeStatID(year, month));
@@ -32,7 +33,7 @@ export default async (activities: ActivityModel[]) => {
     }
 };
 
-const getUniqueTopActivityIds = (stats: StatModel[]): string[] => {
+export const getUniqueTopActivityIds = (stats: StatModel[]): string[] => {
     const idsSet = new Set<string>();
     stats.forEach((stat) => {
         stat.topActivities.forEach((metric) => {
@@ -45,7 +46,7 @@ const getUniqueTopActivityIds = (stats: StatModel[]): string[] => {
     return Array.from(idsSet);
 };
 
-const getTopActivitiesMetrics = async (
+export const getTopActivitiesMetrics = async (
     stats: StatModel[] | null
 ): Promise<Map<string, { [k: string]: any }>> => {
     if (!stats || stats.length === 0) return new Map();

@@ -31,7 +31,7 @@ export default async (activity: ActivityModel): Promise<WeatherData | null> => {
     return weather.toObject();
 };
 
-function parseActivity(
+export function parseActivity(
     activity: ActivityModel
 ): {
     id: string;

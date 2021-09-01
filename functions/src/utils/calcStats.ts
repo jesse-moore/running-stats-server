@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import Stat from '../mongoDB/models/stat';
 import makeStatID from './makeStatID';
+import { toFixed } from './math';
 import { ActivityModel, StatModel, TopActivityMetrics } from '../types';
 import StatusMessage from './statusLogger';
+import { ObjectId, Types } from 'mongoose';
 
 function calcStats(
     activities: ActivityModel[],
@@ -52,7 +54,7 @@ function calcStats(
 
         [allStat, yearStat, monthStat].forEach((stat) => {
             if (!stat) return;
-            addActivityToStat(stat, activity, topActivitiesMetrics);
+            calculateBaseStat(stat, activity);
             const statValidationError = stat.validateSync();
             if (statValidationError?.name) {
                 StatusMessage.addValidationError(
@@ -66,19 +68,18 @@ function calcStats(
     return Array.from(statMap.values());
 }
 
-function addActivityToStat(
-    stat: StatModel,
-    activity: ActivityModel,
-    topActivitiesMetrics: Map<string, { [k: string]: any }>
-) {
+export function calculateBaseStat(stat: StatModel, activity: ActivityModel) {
     stat.count++;
     stat.total_distance += activity.distance;
-    stat.average_distance = stat.total_distance / stat.count;
+    stat.average_distance = toFixed(stat.total_distance / stat.count, 2);
     stat.total_elev_gain += activity.total_elevation_gain;
-    stat.average_elev_gain = stat.total_elev_gain / stat.count;
+    stat.average_elev_gain = toFixed(stat.total_elev_gain / stat.count, 2);
     stat.total_moving_time += activity.moving_time;
-    stat.average_moving_time = stat.total_moving_time / stat.count;
-    stat.average_speed = stat.total_distance / stat.total_moving_time;
+    stat.average_moving_time = toFixed(stat.total_moving_time / stat.count, 2);
+    stat.average_speed = toFixed(
+        stat.total_distance / stat.total_moving_time,
+        2
+    );
 
     const date = new Date(activity.start_date_local);
     const hour = date.getUTCHours();
@@ -91,11 +92,7 @@ function addActivityToStat(
 
     const dayOfWeek = dayjs(date).format('dd').toLowerCase();
     stat.daysOfWeek[dayOfWeek]++;
-
-    TopActivityMetrics.forEach((metric) => {
-        const id: string = activity._id.toHexString();
-        calcTopActivities(stat, id, metric, topActivitiesMetrics);
-    });
+    stat.topActivities = stat.topActivities || new Types.Map();
 }
 
 function calcTopActivities(
@@ -104,6 +101,10 @@ function calcTopActivities(
     metric: { key: string; measure: string },
     topActivitiesMetrics: Map<string, { [k: string]: any }>
 ) {
+    // TopActivityMetrics.forEach((metric) => {
+    //     const id: string = activity._id.toHexString();
+    //     calcTopActivities(stat, id, metric, topActivitiesMetrics);
+    // });
     const { key, measure } = metric;
     const topActivities = stat.topActivities
         .get(key)

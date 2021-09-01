@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import config from './.env';
+import config from './config.env';
 
 export default (function () {
     if (Object.getOwnPropertyNames(functions.config()).length === 0) {

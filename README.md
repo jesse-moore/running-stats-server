@@ -38,6 +38,8 @@
 - [ ] ~~([#15][i15]) Populate top activities in stats query~~
 - [ ] ([#19][i19]) Fix issue with weather api
 
+## Testing
+- ```firebase emulators:start --import=./functions/firebase_testing_db```
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
